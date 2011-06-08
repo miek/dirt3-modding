@@ -1,10 +1,9 @@
 //--------------------------------------
 //--- 010 Editor v3.1.3 Binary Template
 //
-// File:
-// Author:
-// Revision:
-// Purpose:
+// File: pssg.bt
+// Author: Miek
+// Purpose: Label Codemasters PSSG files (only tested on DiRT 3 model/texture archives so far)
 //--------------------------------------
 typedef struct {
     int length;
@@ -48,19 +47,11 @@ struct ARG {
     char v[size];
 };
 
-string readarg(struct ARG &a) {
-    return "";
-    string ret;
-    if (a.size == 4) SPrintf(ret, "%d", a.v);
-    else ret = a.v.str;
-    return ret;
-}
-
 struct ARGS {
     int size;
     local int end = size + FTell();
     while (FTell() < end) {
-        ARG a <read=readarg>;
+        ARG a;
     }
 };
 
@@ -83,23 +74,18 @@ struct NODE {
             char data[end - FTell()] <bgcolor=cRed>;
         break;
         default:
-        while (FTell() < end) struct NODE n <read=readnode>;
+            while (FTell() < end) struct NODE n <read=readnode>;
     }
 };
-
-string readnode(struct NODE &n) {
-    string ret = "";
-    SPrintf(ret, "%s (%d)", file.nodedefs.nd[n.id - 1].name.str, n.id);
-    return ret;
-}
+string readnode(struct NODE &n) { return file.nodedefs.nd[n.id - 1].name.str; }
 
 struct {
     char magic[4];
     int size;
     int pad;
-    int nodedefcount;
     struct NODEDEFS {
-         NODEDEF nd[nodedefcount] <optimize=false>;
+        int nodedefcount;
+        NODEDEF nd[nodedefcount] <optimize=false>;
     } nodedefs <bgcolor=cLtBlue>;
     struct NODES {
         NODE root <read=readnode>;
