@@ -39,6 +39,9 @@
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.listBox1 = new System.Windows.Forms.ListBox();
 			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.splitAllHorizontal = new System.Windows.Forms.SplitContainer();
+			this.buttonExportAll = new System.Windows.Forms.Button();
+			this.modelView1 = new PSSGManager.ModelView();
 			this.menuStrip1.SuspendLayout();
 			this.splitAllVertical.Panel1.SuspendLayout();
 			this.splitAllVertical.Panel2.SuspendLayout();
@@ -46,6 +49,10 @@
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewAttributes)).BeginInit();
 			this.tabControl.SuspendLayout();
 			this.tabAll.SuspendLayout();
+			this.tabModels.SuspendLayout();
+			this.splitContainer2.Panel1.SuspendLayout();
+			this.splitContainer2.Panel2.SuspendLayout();
+			this.splitContainer2.SuspendLayout();
 			this.splitAllHorizontal.Panel1.SuspendLayout();
 			this.splitAllHorizontal.Panel2.SuspendLayout();
 			this.splitAllHorizontal.SuspendLayout();
@@ -206,6 +213,10 @@
 			// splitContainer2.Panel1
 			// 
 			this.splitContainer2.Panel1.Controls.Add(this.listBox1);
+			// 
+			// splitContainer2.Panel2
+			// 
+			this.splitContainer2.Panel2.Controls.Add(this.modelView1);
 			this.splitContainer2.Size = new System.Drawing.Size(686, 373);
 			this.splitContainer2.SplitterDistance = 228;
 			this.splitContainer2.TabIndex = 0;
@@ -225,6 +236,40 @@
 			this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.closeToolStripMenuItem.Text = "Close";
 			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+			this.splitAllHorizontal.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitAllHorizontal.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+			this.splitAllHorizontal.IsSplitterFixed = true;
+			this.splitAllHorizontal.Location = new System.Drawing.Point(3, 3);
+			this.splitAllHorizontal.Name = "splitAllHorizontal";
+			this.splitAllHorizontal.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitAllHorizontal.Panel1
+			// 
+			this.splitAllHorizontal.Panel1.Controls.Add(this.splitAllVertical);
+			// 
+			// splitAllHorizontal.Panel2
+			// 
+			this.splitAllHorizontal.Panel2.Controls.Add(this.buttonExportAll);
+			this.splitAllHorizontal.Size = new System.Drawing.Size(710, 344);
+			this.splitAllHorizontal.SplitterDistance = 309;
+			this.splitAllHorizontal.TabIndex = 1;
+			// 
+			// buttonExportAll
+			// 
+			this.buttonExportAll.Location = new System.Drawing.Point(5, 3);
+			this.buttonExportAll.Name = "buttonExportAll";
+			this.buttonExportAll.Size = new System.Drawing.Size(88, 23);
+			this.buttonExportAll.TabIndex = 2;
+			this.buttonExportAll.Text = "Export to XML";
+			this.buttonExportAll.UseVisualStyleBackColor = true;
+			this.buttonExportAll.Click += new System.EventHandler(this.buttonExportAll_Click);
+			// modelView1
+			// 
+			this.modelView1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.modelView1.Location = new System.Drawing.Point(0, 0);
+			this.modelView1.Name = "modelView1";
+			this.modelView1.Size = new System.Drawing.Size(454, 373);
+			this.modelView1.TabIndex = 0;
 			// 
 			// Main
 			// 
@@ -244,6 +289,10 @@
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewAttributes)).EndInit();
 			this.tabControl.ResumeLayout(false);
 			this.tabAll.ResumeLayout(false);
+			this.tabModels.ResumeLayout(false);
+			this.splitContainer2.Panel1.ResumeLayout(false);
+			this.splitContainer2.Panel2.ResumeLayout(false);
+			this.splitContainer2.ResumeLayout(false);
 			this.splitAllHorizontal.Panel1.ResumeLayout(false);
 			this.splitAllHorizontal.Panel2.ResumeLayout(false);
 			this.splitAllHorizontal.ResumeLayout(false);
@@ -273,6 +322,7 @@
 		private System.Windows.Forms.SplitContainer splitAllHorizontal;
 		private System.Windows.Forms.Button buttonExportAll;
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+		private ModelView modelView1;
 	}
 }
 
