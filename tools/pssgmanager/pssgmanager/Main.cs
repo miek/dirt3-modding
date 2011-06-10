@@ -4,11 +4,14 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Xml;
 using System.Text;
 using System.Windows.Forms;
 
 namespace PSSGManager {
 	public partial class Main : Form {
+		private CPSSGFile pssgFile;
+
 		public Main() {
 			InitializeComponent();
 		}
@@ -20,6 +23,7 @@ namespace PSSGManager {
 			if (dialog.ShowDialog() == DialogResult.OK) {
 				StreamReader sr = new StreamReader(dialog.FileName);
 				CPSSGFile f = new CPSSGFile(sr.BaseStream);
+				pssgFile = f;
 				treeView.Nodes.Add(createTreeViewNode(f.rootNode));
 			} else {
 
@@ -45,6 +49,34 @@ namespace PSSGManager {
 					dataGridViewAttributes.Rows.Add(pair.Key, pair.Value);
 				}
 			}
+		}
+
+		private void buttonExportAll_Click(object sender, EventArgs e) {
+			SaveFileDialog dialog = new SaveFileDialog();
+			dialog.Filter = "XML files|*.xml|All files|*.*";
+			dialog.Title = "Select location to save XML output";
+			if (dialog.ShowDialog() == DialogResult.OK) {
+				XmlWriterSettings settings = new XmlWriterSettings();
+				settings.Indent = true;
+				using (XmlWriter writer = XmlWriter.Create(dialog.FileName, settings)) {
+					writer.WriteStartDocument();
+					writeNodesToXml(writer, pssgFile.rootNode);
+					writer.WriteEndDocument();
+				}
+			}
+		}
+
+		private void writeNodesToXml(XmlWriter writer, CNode node) {
+			writer.WriteStartElement(node.name.ToLower());
+			foreach (KeyValuePair<string, CAttribute> pair in node.attributes) {
+				writer.WriteElementString(pair.Key, pair.Value.ToString());
+			}
+			if (node.subNodes != null) {
+				foreach (CNode subNode in node.subNodes) {
+					writeNodesToXml(writer, subNode);
+				}
+			}
+			writer.WriteEndElement();
 		}
 	}
 }
