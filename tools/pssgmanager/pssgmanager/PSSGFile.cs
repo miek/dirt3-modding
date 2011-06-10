@@ -34,6 +34,10 @@ namespace PSSGManager {
 		public List<CNode> findNodes(string name) {
 			return rootNode.findNodes(name);
 		}
+
+		public List<CNode> findNodes(string name, string attributeName, string attributeValue) {
+			return rootNode.findNodes(name, attributeName, attributeValue);
+		}
 	}
 
 	class CNodeInfo {
@@ -125,12 +129,25 @@ namespace PSSGManager {
 			}
 		}
 
-		public List<CNode> findNodes(string name) {
+		public List<CNode> findNodes(string nodeName) {
+			return findNodes(nodeName, null, null);
+		}
+
+		public List<CNode> findNodes(string nodeName, string attributeName, string attributeValue) {
 			List<CNode> ret = new List<CNode>();
-			if (this.name == name) ret.Add(this);
+			if (this.name == nodeName) {
+				if (attributeName != null && attributeValue != null) {
+					CAttribute attr;
+					if (attributes.TryGetValue(attributeName, out attr) && attr.value == attributeValue) {
+						ret.Add(this);
+					}
+				} else {
+					ret.Add(this);
+				}
+			}
 			if (subNodes != null) {
 				foreach (CNode subNode in subNodes) {
-					ret.AddRange(subNode.findNodes(name));
+					ret.AddRange(subNode.findNodes(nodeName, attributeName, attributeValue));
 				}
 			}
 			return ret;
