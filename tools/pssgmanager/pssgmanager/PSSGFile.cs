@@ -29,6 +29,11 @@ namespace PSSGManager {
 
 			rootNode = new CNode(reader, this);
 		}
+
+
+		public List<CNode> findNodes(string name) {
+			return rootNode.findNodes(name);
+		}
 	}
 
 	class CNodeInfo {
@@ -64,7 +69,7 @@ namespace PSSGManager {
 
 	class CNode {
 		public int id;
-		public CAttribute[] attributes;
+		public Dictionary<string, CAttribute> attributes;
 		public CNode[] subNodes;
 		public bool isDataNode = false;
 		public byte[] data;
@@ -86,13 +91,12 @@ namespace PSSGManager {
 			int attributeSize = reader.ReadInt32();
 			long attributeEnd = reader.BaseStream.Position + attributeSize;
 			// Each attr is at least 8 bytes (id + size), so take a conservative guess
-			attributes = new CAttribute[attributeSize / 8];
-			int attributeCount = 0;
+			attributes = new Dictionary<string, CAttribute>();
+			CAttribute attr;
 			while (reader.BaseStream.Position < attributeEnd) {
-				attributes[attributeCount] = new CAttribute(reader, file);
-				attributeCount++;
+				attr = new CAttribute(reader, file);
+				attributes.Add(attr.name, attr);
 			}
-			Array.Resize(ref attributes, attributeCount);
 
 			switch (name) {
 				case "BOUNDINGBOX":
@@ -120,6 +124,19 @@ namespace PSSGManager {
 				Array.Resize(ref subNodes, nodeCount);
 			}
 		}
+
+		public List<CNode> findNodes(string name) {
+			List<CNode> ret = new List<CNode>();
+			if (this.name == name) ret.Add(this);
+			if (subNodes != null) {
+				foreach (CNode subNode in subNodes) {
+					ret.AddRange(subNode.findNodes(name));
+				}
+			}
+			return ret;
+		}
+
+		public override string ToString() { return name; }
 	}
 
 	class CAttribute {
@@ -139,6 +156,9 @@ namespace PSSGManager {
 			get {
 				return file.attributeInfo[id - 1].name;
 			}
+		}
+		public override string ToString() {
+			return value;
 		}
 
 		private CPSSGFile file;

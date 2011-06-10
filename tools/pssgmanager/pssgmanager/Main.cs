@@ -41,8 +41,8 @@ namespace PSSGManager {
 		private void treeView_AfterSelect(object sender, TreeViewEventArgs e) {
 			if (treeView.SelectedNode != null) {
 				dataGridViewAttributes.Rows.Clear();
-				foreach (CAttribute attr in ((CNode)treeView.SelectedNode.Tag).attributes) {
-					dataGridViewAttributes.Rows.Add(attr.name, attr.value);
+				foreach (KeyValuePair<string, CAttribute> pair in ((CNode)treeView.SelectedNode.Tag).attributes) {
+					dataGridViewAttributes.Rows.Add(pair.Key, pair.Value);
 				}
 			}
 		}

@@ -30,9 +30,9 @@ typedef struct {
     STRING name;
     int itemcount;
     if (itemcount) ITEM items[itemcount] <optimize=false>;
-} NODEDEF <read=readNodeDef>;
+} NODEINFO <read=readNodeInfo>;
 
-string readNodeDef(NODEDEF &s) {
+string readNodeInfo(NODEINFO &s) {
     string ret;
     SPrintf(ret, "%d = %s", s.id, s.name.str);
     return ret;
@@ -47,11 +47,17 @@ struct ARG {
     char v[size];
 };
 
+string readarg(struct ARG &a) {
+    string ret;
+    SPrintf(ret, "%d", n.id);
+    return ret;
+}
+
 struct ARGS {
     int size;
     local int end = size + FTell();
     while (FTell() < end) {
-        ARG a;
+        ARG a <read=readarg>;
     }
 };
 
@@ -82,12 +88,10 @@ string readnode(struct NODE &n) { return file.nodedefs.nd[n.id - 1].name.str; }
 struct {
     char magic[4];
     int size;
-    int pad;
     struct NODEDEFS {
-        int nodedefcount;
-        NODEDEF nd[nodedefcount] <optimize=false>;
+        int attributeinfocount;
+        int nodeinfocount;
+        NODEINFO nd[nodeinfocount] <optimize=false>;
     } nodedefs <bgcolor=cLtBlue>;
-    struct NODES {
-        NODE root <read=readnode>;
-    } nodes;
+    NODE root <read=readnode>;
 } file;
