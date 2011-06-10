@@ -14,6 +14,7 @@ namespace PSSGManager {
 
 		public Main() {
 			InitializeComponent();
+			modelView1.InitialiseGraphics();
 		}
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -26,6 +27,12 @@ namespace PSSGManager {
 				CPSSGFile f = new CPSSGFile(sr.BaseStream);
 				pssgFile = f;
 				treeView.Nodes.Add(createTreeViewNode(f.rootNode));
+
+				listBox1.Items.Clear();
+				List<CNode> risNodes = f.findNodes("RENDERINDEXSOURCE");
+				foreach (CNode n in risNodes) {
+					listBox1.Items.Add(n.attributes["id"]);
+				}
 			}
 		}
 
