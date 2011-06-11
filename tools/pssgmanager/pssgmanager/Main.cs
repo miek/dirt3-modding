@@ -33,25 +33,29 @@ namespace PSSGManager {
 				pssgFile = f;
 				treeView.Nodes.Add(createTreeViewNode(f.rootNode));
 				createTreeViewTexturesList(f.rootNode);
-			}
-			else
-			{
-
 
 				listBox1.Items.Clear();
 				List<CNode> rdsNodes = f.findNodes("RENDERDATASOURCE");
 				models = new Model[rdsNodes.Count];
 				int i = 0;
-				foreach (CNode rdsNode in rdsNodes) {
+				foreach (CNode rdsNode in rdsNodes)
+				{
 					List<CNode> dbNodes = f.findNodes("DATABLOCK", "id", rdsNode.subNodes[1].attributes["dataBlock"].value.Substring(1));
-					if (dbNodes.Count == 1) {
+					if (dbNodes.Count == 1)
+					{
 						models[i] = createModelFromNodes(rdsNode, dbNodes[0]);
 						listBox1.Items.Add(models[i]);
 						i++;
-					} else {
+					}
+					else
+					{
 						// TODO: *shrug*
 					}
 				}
+			}
+			else
+			{
+
 			}
 		}
 
