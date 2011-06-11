@@ -47,6 +47,8 @@ namespace PSSGManager {
 			// Models tab
 			listBox1.Items.Clear();
 
+			// Textures tab
+			treeViewTextures.Nodes.Clear();
 
 			pssgFile = null;
 		}
