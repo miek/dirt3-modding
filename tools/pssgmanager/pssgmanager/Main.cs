@@ -17,13 +17,12 @@ namespace PSSGManager {
 			InitializeComponent();
 		}
 
-		private void openToolStripMenuItem_Click(object sender, EventArgs e)
-		{
+		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
 			OpenFileDialog dialog = new OpenFileDialog();
 			dialog.Filter = "PSSG files|*.pssg|All files|*.*";
 			dialog.Title = "Select a PSSG file";
-			if (dialog.ShowDialog() == DialogResult.OK)
-			{
+			if (dialog.ShowDialog() == DialogResult.OK) {
+				closeFile();
 				StreamReader sr = new StreamReader(dialog.FileName);
 				CPSSGFile f = new CPSSGFile(sr.BaseStream);
 				pssgFile = f;
@@ -34,6 +33,24 @@ namespace PSSGManager {
 			{
 
 			}
+		}
+
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e) {
+			closeFile();
+		}
+
+		private void closeFile() {
+			if (this.pssgFile == null) return;
+
+			// All tab
+			treeView.Nodes.Clear();
+			dataGridViewAttributes.Rows.Clear();
+
+			// Models tab
+			listBox1.Items.Clear();
+
+
+			pssgFile = null;
 		}
 
 		private TreeNode createTreeViewNode(CNode node) {

@@ -1,7 +1,5 @@
-﻿namespace PSSGManager
-{
-	partial class Main
-	{
+﻿namespace PSSGManager {
+	partial class Main {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -11,10 +9,8 @@
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
+		protected override void Dispose(bool disposing) {
+			if (disposing && (components != null)) {
 				components.Dispose();
 			}
 			base.Dispose(disposing);
@@ -26,8 +22,7 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent()
-		{
+		private void InitializeComponent() {
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,6 +42,7 @@
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.treeViewTextures = new System.Windows.Forms.TreeView();
 			this.pictureBoxTextures = new System.Windows.Forms.PictureBox();
+			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.splitAllVertical.Panel1.SuspendLayout();
 			this.splitAllVertical.Panel2.SuspendLayout();
@@ -80,16 +76,17 @@
 			// fileToolStripMenuItem
 			// 
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem});
+            this.openToolStripMenuItem,
+            this.closeToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
 			// openToolStripMenuItem
 			// 
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
-			this.openToolStripMenuItem.Text = "Open";
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.openToolStripMenuItem.Text = "Open...";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
 			// 
 			// splitAllVertical
@@ -219,8 +216,8 @@
 			// splitContainer2.Panel1
 			// 
 			this.splitContainer2.Panel1.Controls.Add(this.listBox1);
-			this.splitContainer2.Size = new System.Drawing.Size(710, 344);
-			this.splitContainer2.SplitterDistance = 235;
+			this.splitContainer2.Size = new System.Drawing.Size(686, 373);
+			this.splitContainer2.SplitterDistance = 228;
 			this.splitContainer2.TabIndex = 0;
 			// 
 			// listBox1
@@ -229,9 +226,9 @@
 			this.listBox1.FormattingEnabled = true;
 			this.listBox1.Location = new System.Drawing.Point(0, 0);
 			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(235, 344);
+			this.listBox1.Size = new System.Drawing.Size(228, 373);
 			this.listBox1.TabIndex = 0;
-			// 
+			//
 			// tabTextures
 			// 
 			this.tabTextures.Controls.Add(this.splitContainer1);
@@ -278,6 +275,12 @@
 			this.pictureBoxTextures.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.pictureBoxTextures.TabIndex = 0;
 			this.pictureBoxTextures.TabStop = false;
+			// closeToolStripMenuItem
+			// 
+			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.closeToolStripMenuItem.Text = "Close";
+			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
 			// 
 			// Main
 			// 
@@ -334,6 +337,7 @@
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.TreeView treeViewTextures;
 		private System.Windows.Forms.PictureBox pictureBoxTextures;
+		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
 	}
 }
 
