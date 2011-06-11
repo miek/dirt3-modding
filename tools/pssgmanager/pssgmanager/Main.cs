@@ -15,6 +15,7 @@ namespace PSSGManager {
 
 		public Main() {
 			InitializeComponent();
+			modelView1.InitialiseGraphics();
 		}
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -32,6 +33,12 @@ namespace PSSGManager {
 			else
 			{
 
+
+				listBox1.Items.Clear();
+				List<CNode> risNodes = f.findNodes("RENDERINDEXSOURCE");
+				foreach (CNode n in risNodes) {
+					listBox1.Items.Add(n.attributes["id"]);
+				}
 			}
 		}
 
