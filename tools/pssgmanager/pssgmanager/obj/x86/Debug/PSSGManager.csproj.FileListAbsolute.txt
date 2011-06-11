@@ -1,0 +1,15 @@
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\bin\Debug\pssgmanager.exe.config
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\bin\Debug\FreeImage.dll
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\bin\Debug\pssgmanager.exe
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\bin\Debug\pssgmanager.pdb
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\bin\Debug\FreeImageNET.dll
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\bin\Debug\MiscUtil.dll
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\bin\Debug\MiscUtil.xml
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\obj\x86\Debug\PSSGManager.Main.resources
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\obj\x86\Debug\PSSGManager.Properties.Resources.resources
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\obj\x86\Debug\GenerateResource-ResGen.read.1.tlog
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\obj\x86\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\obj\x86\Debug\pssgmanager.exe
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\obj\x86\Debug\pssgmanager.pdb
+C:\Documents and Settings\Petar\Desktop\MyFiles\CSharp\RDG\dirt3-modding\tools\pssgmanager\pssgmanager\bin\Debug\dxt.ddh
