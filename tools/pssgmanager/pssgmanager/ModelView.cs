@@ -29,7 +29,7 @@ namespace PSSGManager {
 			pp.DeviceWindowHandle = this.Handle;
 
 			device = new Device(0, DeviceType.Hardware, this, CreateFlags.HardwareVertexProcessing, pp);
-			device.RenderState.FillMode = FillMode.WireFrame;
+			//device.RenderState.FillMode = FillMode.WireFrame;
 
 			device.DeviceReset += new EventHandler(this.OnDeviceReset);
 
@@ -80,8 +80,13 @@ namespace PSSGManager {
 			indexBuffer.SetData(model.indices, 0, LockFlags.None);
 
 			device.Transform.Projection = Matrix.PerspectiveFovLH((float)Math.PI / 4, this.Width / this.Height, 1f, 50f);
-			device.Transform.View = Matrix.LookAtLH(new Vector3(-2, 3, 2), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
-			device.RenderState.Lighting = false;
+			device.Transform.View = Matrix.LookAtLH(new Vector3(-3, 3, 3), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
+			device.RenderState.Lighting = true;
+			device.Lights[0].Type = LightType.Directional;
+			device.Lights[0].Diffuse = Color.White;
+			device.Lights[0].Direction = new Vector3(3, -3, -3);
+			device.Lights[0].Position = new Vector3(-3, 3, 3);
+			device.Lights[0].Enabled = true;
 
 			Render();
 		}
