@@ -11,6 +11,9 @@ namespace PSSGManager {
 	public class ModelView : UserControl {
 		protected Device device = null;
 		private System.Diagnostics.Process process1;
+		private Model model;
+		private VertexBuffer vertexBuffer;
+		private IndexBuffer indexBuffer;
 
 		protected bool initialised = false;
 		public bool Initialised {
@@ -26,6 +29,7 @@ namespace PSSGManager {
 			pp.DeviceWindowHandle = this.Handle;
 
 			device = new Device(0, DeviceType.Hardware, this, CreateFlags.HardwareVertexProcessing, pp);
+			device.RenderState.FillMode = FillMode.WireFrame;
 
 			device.DeviceReset += new EventHandler(this.OnDeviceReset);
 
@@ -38,8 +42,8 @@ namespace PSSGManager {
 			device = sender as Device;
 		}
 
-		public void Render() {
-			CustomVertex.TransformedColored[] vertexes = new CustomVertex.TransformedColored[3];
+		private void Render() {
+			/*CustomVertex.TransformedColored[] vertexes = new CustomVertex.TransformedColored[3];
 
 			vertexes[0].Position = new Vector4(50, 50, 0, 1.0f);
 			vertexes[0].Color = System.Drawing.Color.FromArgb(0, 255, 0).ToArgb();
@@ -51,20 +55,44 @@ namespace PSSGManager {
 			vertexes[2].Color = System.Drawing.Color.FromArgb(255, 0, 0).ToArgb();
 
 			device.VertexFormat = CustomVertex.TransformedColored.Format;
-			device.DrawUserPrimitives(PrimitiveType.TriangleList, 1, vertexes);
+			device.DrawUserPrimitives(PrimitiveType.TriangleList, 1, vertexes);*/
+
+			device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.White, 1.0f, 0);
+			device.BeginScene();
+
+			device.VertexFormat = CustomVertex.PositionNormalColored.Format;
+			device.SetStreamSource(0, vertexBuffer, 0);
+			device.Indices = indexBuffer;
+
+			device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, model.vertices.Length, 0, model.indices.Length / 3);
+
+			device.EndScene();
+			device.Present();
+		}
+
+		public void RenderModel(Model model) {
+			this.model = model;
+			vertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionNormalColored), model.vertices.Length,
+										device, Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionNormalColored.Format, Pool.Default);
+			vertexBuffer.SetData(model.vertices, 0, LockFlags.None);
+
+			indexBuffer = new IndexBuffer(typeof(ushort), model.indices.Length, device, Usage.WriteOnly, Pool.Default);
+			indexBuffer.SetData(model.indices, 0, LockFlags.None);
+
+			device.Transform.Projection = Matrix.PerspectiveFovLH((float)Math.PI / 4, this.Width / this.Height, 1f, 50f);
+			device.Transform.View = Matrix.LookAtLH(new Vector3(-2, 3, 2), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
+			device.RenderState.Lighting = false;
+
+			Render();
 		}
 
 		protected override void OnPaint(PaintEventArgs e) {
-			if (device == null) {
+			if (device == null || model == null) {
 				e.Graphics.FillRectangle(Brushes.Black, new Rectangle(0, 0, Width, Height));
 				return;
 			}
 
-			device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Blue, 1.0f, 0);
-			device.BeginScene();
 			Render();
-			device.EndScene();
-			device.Present();
 		}
 
 		protected override void OnPaintBackground(PaintEventArgs e) {
@@ -95,4 +123,21 @@ namespace PSSGManager {
 
 		}
 	}
+
+	public class Model {
+		public string name;
+		public CustomVertex.PositionNormalColored[] vertices;
+		public ushort[] indices;
+
+		public Model(string name, CustomVertex.PositionNormalColored[] vertices, ushort[] indices) {
+			this.name = name;
+			this.vertices = vertices;
+			this.indices = indices;
+		}
+
+		public override string ToString() {
+			return name;
+		}
+	}
 }
+

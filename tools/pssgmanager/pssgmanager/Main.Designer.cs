@@ -49,6 +49,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewAttributes)).BeginInit();
 			this.tabControl.SuspendLayout();
 			this.tabAll.SuspendLayout();
+			this.splitAllHorizontal.Panel1.SuspendLayout();
+			this.splitAllHorizontal.Panel2.SuspendLayout();
+			this.splitAllHorizontal.SuspendLayout();
 			this.tabModels.SuspendLayout();
 			this.splitContainer2.Panel1.SuspendLayout();
 			this.splitContainer2.Panel2.SuspendLayout();
@@ -67,7 +70,7 @@
             this.fileToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(724, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(1194, 24);
 			this.menuStrip1.TabIndex = 0;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -149,7 +152,7 @@
 			this.tabControl.Location = new System.Drawing.Point(0, 24);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
-			this.tabControl.Size = new System.Drawing.Size(724, 376);
+			this.tabControl.Size = new System.Drawing.Size(1194, 562);
 			this.tabControl.TabIndex = 2;
 			// 
 			// tabAll
@@ -199,7 +202,7 @@
 			this.tabModels.Location = new System.Drawing.Point(4, 22);
 			this.tabModels.Name = "tabModels";
 			this.tabModels.Padding = new System.Windows.Forms.Padding(3);
-			this.tabModels.Size = new System.Drawing.Size(716, 350);
+			this.tabModels.Size = new System.Drawing.Size(1186, 536);
 			this.tabModels.TabIndex = 1;
 			this.tabModels.Text = "Models";
 			this.tabModels.UseVisualStyleBackColor = true;
@@ -217,8 +220,8 @@
 			// splitContainer2.Panel2
 			// 
 			this.splitContainer2.Panel2.Controls.Add(this.modelView1);
-			this.splitContainer2.Size = new System.Drawing.Size(686, 373);
-			this.splitContainer2.SplitterDistance = 228;
+			this.splitContainer2.Size = new System.Drawing.Size(1180, 530);
+			this.splitContainer2.SplitterDistance = 392;
 			this.splitContainer2.TabIndex = 0;
 			// 
 			// listBox1
@@ -227,8 +230,9 @@
 			this.listBox1.FormattingEnabled = true;
 			this.listBox1.Location = new System.Drawing.Point(0, 0);
 			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(228, 373);
+			this.listBox1.Size = new System.Drawing.Size(392, 530);
 			this.listBox1.TabIndex = 0;
+			this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
 			// 
 			// closeToolStripMenuItem
 			// 
@@ -268,14 +272,14 @@
 			this.modelView1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.modelView1.Location = new System.Drawing.Point(0, 0);
 			this.modelView1.Name = "modelView1";
-			this.modelView1.Size = new System.Drawing.Size(454, 373);
+			this.modelView1.Size = new System.Drawing.Size(784, 530);
 			this.modelView1.TabIndex = 0;
 			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(724, 400);
+			this.ClientSize = new System.Drawing.Size(1194, 586);
 			this.Controls.Add(this.tabControl);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
@@ -289,6 +293,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewAttributes)).EndInit();
 			this.tabControl.ResumeLayout(false);
 			this.tabAll.ResumeLayout(false);
+			this.splitAllHorizontal.Panel1.ResumeLayout(false);
+			this.splitAllHorizontal.Panel2.ResumeLayout(false);
+			this.splitAllHorizontal.ResumeLayout(false);
 			this.tabModels.ResumeLayout(false);
 			this.splitContainer2.Panel1.ResumeLayout(false);
 			this.splitContainer2.Panel2.ResumeLayout(false);
