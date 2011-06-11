@@ -8,9 +8,13 @@ using System.Xml;
 using System.Text;
 using System.Windows.Forms;
 
+using Microsoft.DirectX;
+using Microsoft.DirectX.Direct3D;
+
 namespace PSSGManager {
 	public partial class Main : Form {
 		private CPSSGFile pssgFile;
+		private Model[] models;
 
 		public Main() {
 			InitializeComponent();
@@ -29,9 +33,18 @@ namespace PSSGManager {
 				treeView.Nodes.Add(createTreeViewNode(f.rootNode));
 
 				listBox1.Items.Clear();
-				List<CNode> risNodes = f.findNodes("RENDERINDEXSOURCE");
-				foreach (CNode n in risNodes) {
-					listBox1.Items.Add(n.attributes["id"]);
+				List<CNode> rdsNodes = f.findNodes("RENDERDATASOURCE");
+				models = new Model[rdsNodes.Count];
+				int i = 0;
+				foreach (CNode rdsNode in rdsNodes) {
+					List<CNode> dbNodes = f.findNodes("DATABLOCK", "id", rdsNode.subNodes[1].attributes["dataBlock"].value.Substring(1));
+					if (dbNodes.Count == 1) {
+						models[i] = createModelFromNodes(rdsNode, dbNodes[0]);
+						listBox1.Items.Add(models[i]);
+						i++;
+					} else {
+						// TODO: *shrug*
+					}
 				}
 			}
 		}
@@ -52,6 +65,37 @@ namespace PSSGManager {
 
 
 			pssgFile = null;
+		}
+
+		private Model createModelFromNodes(CNode rdsNode, CNode dbNode) {
+			MiscUtil.Conversion.BigEndianBitConverter bc = new MiscUtil.Conversion.BigEndianBitConverter();
+			CustomVertex.PositionNormalColored[] vertices = new CustomVertex.PositionNormalColored[(int)dbNode.attributes["elementCount"].data];
+
+			Vector3 pos = new Vector3();
+			int color;
+			Vector3 normal = new Vector3();
+			int vertexCount = 0;
+			for (int i = 0; i < (int)dbNode.attributes["size"].data; i += 28) {
+				pos.X = bc.ToSingle(dbNode.subNodes[3].data, i);
+				pos.Y = bc.ToSingle(dbNode.subNodes[3].data, i + 4);
+				pos.Z = bc.ToSingle(dbNode.subNodes[3].data, i + 8);
+
+				color = bc.ToInt32(dbNode.subNodes[3].data, i + 12);
+
+				normal.X = bc.ToSingle(dbNode.subNodes[3].data, i + 16);
+				normal.Y = bc.ToSingle(dbNode.subNodes[3].data, i + 20);
+				normal.Z = bc.ToSingle(dbNode.subNodes[3].data, i + 24);
+
+				vertices[vertexCount] = new CustomVertex.PositionNormalColored(pos, normal, color);
+				vertexCount++;
+			}
+
+			int indexCount = (int)rdsNode.subNodes[0].attributes["count"].data;
+			ushort[] indices = new ushort[indexCount];
+			for (int i = 0; i < indexCount; i++) {
+				indices[i] = bc.ToUInt16(rdsNode.subNodes[0].subNodes[0].data, i * 2);
+			}
+			return new Model(rdsNode.attributes["id"].value, vertices, indices);
 		}
 
 		private TreeNode createTreeViewNode(CNode node) {
@@ -101,6 +145,10 @@ namespace PSSGManager {
 				}
 			}
 			writer.WriteEndElement();
+		}
+
+		private void listBox1_SelectedIndexChanged(object sender, EventArgs e) {
+			modelView1.RenderModel((Model)listBox1.SelectedItem);
 		}
 	}
 }
