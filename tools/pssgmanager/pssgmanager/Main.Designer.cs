@@ -39,6 +39,10 @@
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.listBox1 = new System.Windows.Forms.ListBox();
 			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tabTextures = new System.Windows.Forms.TabPage();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.treeViewTextures = new System.Windows.Forms.TreeView();
+			this.pictureBoxTextures = new System.Windows.Forms.PictureBox();
 			this.menuStrip1.SuspendLayout();
 			this.splitAllVertical.Panel1.SuspendLayout();
 			this.splitAllVertical.Panel2.SuspendLayout();
@@ -52,12 +56,17 @@
 			this.tabModels.SuspendLayout();
 			this.splitContainer2.Panel1.SuspendLayout();
 			this.splitContainer2.SuspendLayout();
+			this.tabTextures.SuspendLayout();
+			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
+			this.splitContainer1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTextures)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+			this.fileToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(724, 24);
@@ -67,8 +76,8 @@
 			// fileToolStripMenuItem
 			// 
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
-            this.closeToolStripMenuItem});
+			this.openToolStripMenuItem,
+			this.closeToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
@@ -112,8 +121,8 @@
 			this.dataGridViewAttributes.AllowUserToDeleteRows = false;
 			this.dataGridViewAttributes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewAttributes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnName,
-            this.ColumnValue});
+			this.ColumnName,
+			this.ColumnValue});
 			this.dataGridViewAttributes.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridViewAttributes.Location = new System.Drawing.Point(0, 0);
 			this.dataGridViewAttributes.Name = "dataGridViewAttributes";
@@ -138,6 +147,7 @@
 			// 
 			this.tabControl.Controls.Add(this.tabAll);
 			this.tabControl.Controls.Add(this.tabModels);
+			this.tabControl.Controls.Add(this.tabTextures);
 			this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl.Location = new System.Drawing.Point(0, 24);
 			this.tabControl.Name = "tabControl";
@@ -206,8 +216,8 @@
 			// splitContainer2.Panel1
 			// 
 			this.splitContainer2.Panel1.Controls.Add(this.listBox1);
-			this.splitContainer2.Size = new System.Drawing.Size(686, 373);
-			this.splitContainer2.SplitterDistance = 228;
+			this.splitContainer2.Size = new System.Drawing.Size(710, 344);
+			this.splitContainer2.SplitterDistance = 235;
 			this.splitContainer2.TabIndex = 0;
 			// 
 			// listBox1
@@ -216,7 +226,7 @@
 			this.listBox1.FormattingEnabled = true;
 			this.listBox1.Location = new System.Drawing.Point(0, 0);
 			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(228, 373);
+			this.listBox1.Size = new System.Drawing.Size(235, 344);
 			this.listBox1.TabIndex = 0;
 			// 
 			// closeToolStripMenuItem
@@ -225,6 +235,53 @@
 			this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.closeToolStripMenuItem.Text = "Close";
 			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+			// 
+			// tabTextures
+			// 
+			this.tabTextures.Controls.Add(this.splitContainer1);
+			this.tabTextures.Location = new System.Drawing.Point(4, 22);
+			this.tabTextures.Name = "tabTextures";
+			this.tabTextures.Padding = new System.Windows.Forms.Padding(3);
+			this.tabTextures.Size = new System.Drawing.Size(716, 350);
+			this.tabTextures.TabIndex = 2;
+			this.tabTextures.Text = "Textures";
+			this.tabTextures.UseVisualStyleBackColor = true;
+			// 
+			// splitContainer1
+			// 
+			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.Location = new System.Drawing.Point(3, 3);
+			this.splitContainer1.Name = "splitContainer1";
+			// 
+			// splitContainer1.Panel1
+			// 
+			this.splitContainer1.Panel1.Controls.Add(this.treeViewTextures);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this.pictureBoxTextures);
+			this.splitContainer1.Size = new System.Drawing.Size(710, 344);
+			this.splitContainer1.SplitterDistance = 235;
+			this.splitContainer1.TabIndex = 1;
+			// 
+			// treeViewTextures
+			// 
+			this.treeViewTextures.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.treeViewTextures.Location = new System.Drawing.Point(0, 0);
+			this.treeViewTextures.Name = "treeViewTextures";
+			this.treeViewTextures.Size = new System.Drawing.Size(235, 344);
+			this.treeViewTextures.TabIndex = 0;
+			this.treeViewTextures.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewTextures_AfterSelect);
+			// 
+			// pictureBoxTextures
+			// 
+			this.pictureBoxTextures.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pictureBoxTextures.Location = new System.Drawing.Point(0, 0);
+			this.pictureBoxTextures.Name = "pictureBoxTextures";
+			this.pictureBoxTextures.Size = new System.Drawing.Size(471, 344);
+			this.pictureBoxTextures.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+			this.pictureBoxTextures.TabIndex = 0;
+			this.pictureBoxTextures.TabStop = false;
 			// 
 			// Main
 			// 
@@ -250,9 +307,13 @@
 			this.tabModels.ResumeLayout(false);
 			this.splitContainer2.Panel1.ResumeLayout(false);
 			this.splitContainer2.ResumeLayout(false);
+			this.tabTextures.ResumeLayout(false);
+			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			this.splitContainer1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTextures)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
-
 		}
 
 		#endregion
@@ -273,6 +334,10 @@
 		private System.Windows.Forms.SplitContainer splitAllHorizontal;
 		private System.Windows.Forms.Button buttonExportAll;
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+		private System.Windows.Forms.TabPage tabTextures;
+		private System.Windows.Forms.SplitContainer splitContainer1;
+		private System.Windows.Forms.TreeView treeViewTextures;
+		private System.Windows.Forms.PictureBox pictureBoxTextures;
 	}
 }
 
