@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Xml;
 using System.Text;
@@ -17,6 +14,7 @@ namespace PSSGManager {
 			InitializeComponent();
 		}
 
+		#region MainMenu
 		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
 			OpenFileDialog dialog = new OpenFileDialog();
 			dialog.Filter = "PSSG files|*.pssg|All files|*.*";
@@ -49,10 +47,13 @@ namespace PSSGManager {
 
 			// Textures tab
 			treeViewTextures.Nodes.Clear();
+			pictureBoxTextures.Image = null;
 
 			pssgFile = null;
 		}
+		#endregion
 
+		#region All
 		private TreeNode createTreeViewNode(CNode node) {
 			TreeNode treeNode = new TreeNode();
 			treeNode.Text = node.name;
@@ -101,7 +102,9 @@ namespace PSSGManager {
 			}
 			writer.WriteEndElement();
 		}
+		#endregion
 
+		#region Textures
 		private void createTreeViewTexturesList(CNode node) {
 			if (node.name == "TEXTURE") {
 				TreeNode treeNode = new TreeNode();
@@ -117,11 +120,14 @@ namespace PSSGManager {
 		}
 
 		private void treeViewTextures_AfterSelect(object sender, TreeViewEventArgs e) {
+			createPreview();
+		}
+		private void createPreview() {
 			int height = 0; int width = 0;
 			pictureBoxTextures.Dock = DockStyle.Fill;
 			height = pictureBoxTextures.Height;
 			width = pictureBoxTextures.Width;
-			writeDDS(Application.StartupPath + "\\temp.dds");
+			writeDDS(Application.StartupPath + "\\temp.dds", null);
 			FREE_IMAGE_FORMAT format = FREE_IMAGE_FORMAT.FIF_DDS;
 			System.Drawing.Bitmap image = FreeImage.LoadBitmap(Application.StartupPath + "\\temp.dds", FREE_IMAGE_LOAD_FLAGS.DEFAULT, ref format);
 			if (image.Height <= height && image.Width <= width) {
@@ -132,9 +138,25 @@ namespace PSSGManager {
 			pictureBoxTextures.Image = image;
 		}
 
-		private void writeDDS(string ddsPath) {
-			byte[] ddh;
+		private void toolStripButtonExport_Click(object sender, EventArgs e) {
+			if (treeViewTextures.Nodes.Count == 0 || treeViewTextures.SelectedNode.Index == -1)
+			{
+				return;
+			}
 			CNode node = ((CNode)treeViewTextures.SelectedNode.Tag);
+			SaveFileDialog dialog = new SaveFileDialog();
+			dialog.Filter = "DDS files|*.dds|All files|*.*";
+			dialog.Title = "Select the dds save location and file name";
+			dialog.FileName = node.attributes["id"].value + ".dds";
+			if (dialog.ShowDialog() == DialogResult.OK) {
+				writeDDS(dialog.FileName, node);
+			}
+		}
+		private void writeDDS(string ddsPath, CNode node) {
+			byte[] ddh;
+			if (node == null) {
+				node = ((CNode)treeViewTextures.SelectedNode.Tag);
+			}
 			using (BinaryReader b = new BinaryReader(File.Open(Application.StartupPath + "\\dxt.ddh", FileMode.Open))) {
 				ddh = b.ReadBytes(128);
 			}
@@ -166,5 +188,58 @@ namespace PSSGManager {
 				outStream.Write(Encoding.UTF8.GetBytes(((string)node.attributes["texelFormat"].data).ToUpper()), 0, 4);
 			}
 		}
+
+		private void toolStripButtonImport_Click(object sender, EventArgs e) {
+			if (treeViewTextures.Nodes.Count == 0 || treeViewTextures.SelectedNode.Index == -1) {
+				return;
+			}
+			CNode node = ((CNode)treeViewTextures.SelectedNode.Tag);
+			OpenFileDialog dialog = new OpenFileDialog();
+			dialog.Filter = "DDS files|*.dds|All files|*.*";
+			dialog.Title = "Select a dds file";
+			dialog.FileName = node.attributes["id"].value + ".dds";
+			if (dialog.ShowDialog() == DialogResult.OK) {
+				readDDS(dialog.FileName, node);
+				createPreview();
+			}
+		}
+		private void readDDS(string ddsPath, CNode node) {
+			if (node == null) {
+				node = node = ((CNode)treeViewTextures.SelectedNode.Tag);
+			}
+			int nMML = 0;
+			using (BinaryReader b = new BinaryReader(File.Open(ddsPath, FileMode.Open))) {
+				// Skip first 12 bytes
+				b.ReadBytes(12);
+				// Height
+				node.attributes["height"].data = b.ReadInt32();
+				// Width
+				node.attributes["width"].data = b.ReadInt32();
+				// Skip 8
+				b.ReadBytes(8);
+				// numberMipMapLevels
+				nMML = b.ReadInt32() - 1;
+				if (nMML >= 0) {
+					node.attributes["numberMipMapLevels"].data = nMML;
+				} else {
+					node.attributes["numberMipMapLevels"].data = 0;
+				}
+				// Skip 52
+				b.ReadBytes(52);
+				// texelFormat
+				node.attributes["texelFormat"].data = Encoding.UTF8.GetString(b.ReadBytes(4)).ToLower();
+				// Skip 40
+				b.ReadBytes(40);
+				// Code
+				node.subNodes[0].subNodes[0].data = b.ReadBytes((int)(b.BaseStream.Length - (long)128));
+				// TEXTUREIMAGEBLOCKDATA-Size
+				//sections[sectionIndex + 2].Size = sections[sectionIndex + 2].Code.Length + 4;
+				// TEXTUREIMAGEBLOCK_size
+				node.subNodes[0].attributes["size"].data = node.subNodes[0].subNodes[0].data.Length;
+				// TEXTUREIMAGEBLOCK-Size
+				//sections[sectionIndex + 1].Size = bytesToInt(sections[sectionIndex + 1].Subsections["size"].Value) + sections[sectionIndex + 1].Size2 + 16;
+			}
+		}
+		#endregion
 	}
 }
