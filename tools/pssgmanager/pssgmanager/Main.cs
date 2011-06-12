@@ -1,27 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Xml;
 using System.Text;
 using System.Windows.Forms;
 using FreeImageAPI;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-
 namespace PSSGManager {
 	public partial class Main : Form {
 		private CPSSGFile pssgFile;
-		private Model[] models;
 
 		public Main() {
 			InitializeComponent();
-			modelView1.InitialiseGraphics();
 		}
 
+		#region MainMenu
 		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
 			OpenFileDialog dialog = new OpenFileDialog();
 			dialog.Filter = "PSSG files|*.pssg|All files|*.*";
@@ -32,29 +25,8 @@ namespace PSSGManager {
 				CPSSGFile f = new CPSSGFile(sr.BaseStream);
 				pssgFile = f;
 				treeView.Nodes.Add(createTreeViewNode(f.rootNode));
-				createTreeViewTexturesList(f.rootNode);
-
-				listBox1.Items.Clear();
-				List<CNode> rdsNodes = f.findNodes("RENDERDATASOURCE");
-				models = new Model[rdsNodes.Count];
-				int i = 0;
-				foreach (CNode rdsNode in rdsNodes)
-				{
-					List<CNode> dbNodes = f.findNodes("DATABLOCK", "id", rdsNode.subNodes[1].attributes["dataBlock"].value.Substring(1));
-					if (dbNodes.Count == 1)
-					{
-						models[i] = createModelFromNodes(rdsNode, dbNodes[0]);
-						listBox1.Items.Add(models[i]);
-						i++;
-					}
-					else
-					{
-						// TODO: *shrug*
-					}
-				}
-			}
-			else
-			{
+		                createTreeViewTexturesList(f.rootNode);
+			} else {
 
 			}
 		}
@@ -73,41 +45,15 @@ namespace PSSGManager {
 			// Models tab
 			listBox1.Items.Clear();
 
+			// Textures tab
+			treeViewTextures.Nodes.Clear();
+			pictureBoxTextures.Image = null;
 
 			pssgFile = null;
 		}
+		#endregion
 
-		private Model createModelFromNodes(CNode rdsNode, CNode dbNode) {
-			MiscUtil.Conversion.BigEndianBitConverter bc = new MiscUtil.Conversion.BigEndianBitConverter();
-			CustomVertex.PositionNormalColored[] vertices = new CustomVertex.PositionNormalColored[(int)dbNode.attributes["elementCount"].data];
-
-			Vector3 pos = new Vector3();
-			int color;
-			Vector3 normal = new Vector3();
-			int vertexCount = 0;
-			for (int i = 0; i < (int)dbNode.attributes["size"].data; i += 28) {
-				pos.X = bc.ToSingle(dbNode.subNodes[3].data, i);
-				pos.Y = bc.ToSingle(dbNode.subNodes[3].data, i + 4);
-				pos.Z = bc.ToSingle(dbNode.subNodes[3].data, i + 8);
-
-				color = bc.ToInt32(dbNode.subNodes[3].data, i + 12);
-
-				normal.X = bc.ToSingle(dbNode.subNodes[3].data, i + 16);
-				normal.Y = bc.ToSingle(dbNode.subNodes[3].data, i + 20);
-				normal.Z = bc.ToSingle(dbNode.subNodes[3].data, i + 24);
-
-				vertices[vertexCount] = new CustomVertex.PositionNormalColored(pos, normal, color);
-				vertexCount++;
-			}
-
-			int indexCount = (int)rdsNode.subNodes[0].attributes["count"].data;
-			ushort[] indices = new ushort[indexCount];
-			for (int i = 0; i < indexCount; i++) {
-				indices[i] = bc.ToUInt16(rdsNode.subNodes[0].subNodes[0].data, i * 2);
-			}
-			return new Model(rdsNode.attributes["id"].value, vertices, indices);
-		}
-
+		#region All
 		private TreeNode createTreeViewNode(CNode node) {
 			TreeNode treeNode = new TreeNode();
 			treeNode.Text = node.name;
@@ -156,36 +102,35 @@ namespace PSSGManager {
 			}
 			writer.WriteEndElement();
 		}
+		#endregion
 
-		private void createTreeViewTexturesList(CNode node)
-		{
-			if (node.name == "TEXTURE")
-			{
+		#region Textures
+		private void createTreeViewTexturesList(CNode node) {
+			if (node.name == "TEXTURE") {
 				TreeNode treeNode = new TreeNode();
 				treeNode.Text = node.attributes["id"].value;
 				treeNode.Tag = node;
 				treeViewTextures.Nodes.Add(treeNode);
 			}
-			if (node.subNodes != null)
-			{
-				foreach (CNode subNode in node.subNodes)
-				{
+			if (node.subNodes != null) {
+				foreach (CNode subNode in node.subNodes) {
 					createTreeViewTexturesList(subNode);
 				}
 			}
 		}
 
-		private void treeViewTextures_AfterSelect(object sender, TreeViewEventArgs e)
-		{
+		private void treeViewTextures_AfterSelect(object sender, TreeViewEventArgs e) {
+			createPreview();
+		}
+		private void createPreview() {
 			int height = 0; int width = 0;
 			pictureBoxTextures.Dock = DockStyle.Fill;
 			height = pictureBoxTextures.Height;
 			width = pictureBoxTextures.Width;
-			writeDDS(Application.StartupPath + "\\temp.dds");
+			writeDDS(Application.StartupPath + "\\temp.dds", null);
 			FREE_IMAGE_FORMAT format = FREE_IMAGE_FORMAT.FIF_DDS;
 			System.Drawing.Bitmap image = FreeImage.LoadBitmap(Application.StartupPath + "\\temp.dds", FREE_IMAGE_LOAD_FLAGS.DEFAULT, ref format);
-			if (image.Height <= height && image.Width <= width)
-			{
+			if (image.Height <= height && image.Width <= width) {
 				pictureBoxTextures.Dock = DockStyle.None;
 				pictureBoxTextures.Width = image.Width;
 				pictureBoxTextures.Height = image.Height;
@@ -193,28 +138,39 @@ namespace PSSGManager {
 			pictureBoxTextures.Image = image;
 		}
 
-        private void writeDDS(string ddsPath)
-        {
-            byte[] ddh;
-            CNode node = ((CNode)treeViewTextures.SelectedNode.Tag);
-            using (BinaryReader b = new BinaryReader(File.Open(Application.StartupPath + "\\dxt.ddh", FileMode.Open)))
-            {
-                ddh = b.ReadBytes(128);
-            }
-            using (BinaryWriter b = new BinaryWriter(File.Open(ddsPath, FileMode.Create)))
-            {
-                b.Write(ddh);
-                b.Write(node.subNodes[0].subNodes[0].data);
-            }
-			using (Stream outStream = File.Open(ddsPath, FileMode.Open))
+		private void toolStripButtonExport_Click(object sender, EventArgs e) {
+			if (treeViewTextures.Nodes.Count == 0 || treeViewTextures.SelectedNode.Index == -1)
 			{
+				return;
+			}
+			CNode node = ((CNode)treeViewTextures.SelectedNode.Tag);
+			SaveFileDialog dialog = new SaveFileDialog();
+			dialog.Filter = "DDS files|*.dds|All files|*.*";
+			dialog.Title = "Select the dds save location and file name";
+			dialog.FileName = node.attributes["id"].value + ".dds";
+			if (dialog.ShowDialog() == DialogResult.OK) {
+				writeDDS(dialog.FileName, node);
+			}
+		}
+		private void writeDDS(string ddsPath, CNode node) {
+			byte[] ddh;
+			if (node == null) {
+				node = ((CNode)treeViewTextures.SelectedNode.Tag);
+			}
+			using (BinaryReader b = new BinaryReader(File.Open(Application.StartupPath + "\\dxt.ddh", FileMode.Open))) {
+				ddh = b.ReadBytes(128);
+			}
+			using (BinaryWriter b = new BinaryWriter(File.Open(ddsPath, FileMode.Create))) {
+				b.Write(ddh);
+				b.Write(node.subNodes[0].subNodes[0].data);
+			}
+			using (Stream outStream = File.Open(ddsPath, FileMode.Open)) {
 				outStream.Seek(12, SeekOrigin.Begin);
 				// Change Height and Width
 				outStream.Write(BitConverter.GetBytes((int)node.attributes["height"].data), 0, 4);
 				outStream.Write(BitConverter.GetBytes((int)node.attributes["width"].data), 0, 4);
 				// Change size
-				switch ((string)node.attributes["texelFormat"].data)
-				{
+				switch ((string)node.attributes["texelFormat"].data) {
 					case "dxt1":
 						outStream.Write(BitConverter.GetBytes(((int)node.attributes["width"].data) * ((int)node.attributes["height"].data) / 2), 0, 4);
 						break;
@@ -231,9 +187,59 @@ namespace PSSGManager {
 				// Change Format
 				outStream.Write(Encoding.UTF8.GetBytes(((string)node.attributes["texelFormat"].data).ToUpper()), 0, 4);
 			}
-        }
-		private void listBox1_SelectedIndexChanged(object sender, EventArgs e) {
-			modelView1.RenderModel((Model)listBox1.SelectedItem);
 		}
+
+		private void toolStripButtonImport_Click(object sender, EventArgs e) {
+			if (treeViewTextures.Nodes.Count == 0 || treeViewTextures.SelectedNode.Index == -1) {
+				return;
+			}
+			CNode node = ((CNode)treeViewTextures.SelectedNode.Tag);
+			OpenFileDialog dialog = new OpenFileDialog();
+			dialog.Filter = "DDS files|*.dds|All files|*.*";
+			dialog.Title = "Select a dds file";
+			dialog.FileName = node.attributes["id"].value + ".dds";
+			if (dialog.ShowDialog() == DialogResult.OK) {
+				readDDS(dialog.FileName, node);
+				createPreview();
+			}
+		}
+		private void readDDS(string ddsPath, CNode node) {
+			if (node == null) {
+				node = node = ((CNode)treeViewTextures.SelectedNode.Tag);
+			}
+			int nMML = 0;
+			using (BinaryReader b = new BinaryReader(File.Open(ddsPath, FileMode.Open))) {
+				// Skip first 12 bytes
+				b.ReadBytes(12);
+				// Height
+				node.attributes["height"].data = b.ReadInt32();
+				// Width
+				node.attributes["width"].data = b.ReadInt32();
+				// Skip 8
+				b.ReadBytes(8);
+				// numberMipMapLevels
+				nMML = b.ReadInt32() - 1;
+				if (nMML >= 0) {
+					node.attributes["numberMipMapLevels"].data = nMML;
+				} else {
+					node.attributes["numberMipMapLevels"].data = 0;
+				}
+				// Skip 52
+				b.ReadBytes(52);
+				// texelFormat
+				node.attributes["texelFormat"].data = Encoding.UTF8.GetString(b.ReadBytes(4)).ToLower();
+				// Skip 40
+				b.ReadBytes(40);
+				// Code
+				node.subNodes[0].subNodes[0].data = b.ReadBytes((int)(b.BaseStream.Length - (long)128));
+				// TEXTUREIMAGEBLOCKDATA-Size
+				//sections[sectionIndex + 2].Size = sections[sectionIndex + 2].Code.Length + 4;
+				// TEXTUREIMAGEBLOCK_size
+				node.subNodes[0].attributes["size"].data = node.subNodes[0].subNodes[0].data.Length;
+				// TEXTUREIMAGEBLOCK-Size
+				//sections[sectionIndex + 1].Size = bytesToInt(sections[sectionIndex + 1].Subsections["size"].Value) + sections[sectionIndex + 1].Size2 + 16;
+			}
+		}
+		#endregion
 	}
 }
