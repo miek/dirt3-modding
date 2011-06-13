@@ -73,37 +73,6 @@ namespace PSSGManager {
 		}
 		#endregion
 
-		private Model createModelFromNodes(CNode rdsNode, CNode dbNode) {
-			MiscUtil.Conversion.BigEndianBitConverter bc = new MiscUtil.Conversion.BigEndianBitConverter();
-			CustomVertex.PositionNormalColored[] vertices = new CustomVertex.PositionNormalColored[(int)dbNode.attributes["elementCount"].data];
-
-			Vector3 pos = new Vector3();
-			int color;
-			Vector3 normal = new Vector3();
-			int vertexCount = 0;
-			for (int i = 0; i < (int)dbNode.attributes["size"].data; i += 28) {
-				pos.X = bc.ToSingle(dbNode.subNodes[3].data, i);
-				pos.Y = bc.ToSingle(dbNode.subNodes[3].data, i + 4);
-				pos.Z = bc.ToSingle(dbNode.subNodes[3].data, i + 8);
-
-				color = bc.ToInt32(dbNode.subNodes[3].data, i + 12);
-
-				normal.X = bc.ToSingle(dbNode.subNodes[3].data, i + 16);
-				normal.Y = bc.ToSingle(dbNode.subNodes[3].data, i + 20);
-				normal.Z = bc.ToSingle(dbNode.subNodes[3].data, i + 24);
-
-				vertices[vertexCount] = new CustomVertex.PositionNormalColored(pos, normal, color);
-				vertexCount++;
-			}
-
-			int indexCount = (int)rdsNode.subNodes[0].attributes["count"].data;
-			ushort[] indices = new ushort[indexCount];
-			for (int i = 0; i < indexCount; i++) {
-				indices[i] = bc.ToUInt16(rdsNode.subNodes[0].subNodes[0].data, i * 2);
-			}
-			return new Model(rdsNode.attributes["id"].value, vertices, indices);
-		}
-
 		#region All
 		private TreeNode createTreeViewNode(CNode node) {
 			TreeNode treeNode = new TreeNode();
@@ -152,6 +121,39 @@ namespace PSSGManager {
 				}
 			}
 			writer.WriteEndElement();
+		}
+		#endregion
+
+		#region Models
+		private Model createModelFromNodes(CNode rdsNode, CNode dbNode) {
+			MiscUtil.Conversion.BigEndianBitConverter bc = new MiscUtil.Conversion.BigEndianBitConverter();
+			CustomVertex.PositionNormalColored[] vertices = new CustomVertex.PositionNormalColored[(int)dbNode.attributes["elementCount"].data];
+
+			Vector3 pos = new Vector3();
+			int color;
+			Vector3 normal = new Vector3();
+			int vertexCount = 0;
+			for (int i = 0; i < (int)dbNode.attributes["size"].data; i += 28) {
+				pos.X = bc.ToSingle(dbNode.subNodes[3].data, i);
+				pos.Y = bc.ToSingle(dbNode.subNodes[3].data, i + 4);
+				pos.Z = bc.ToSingle(dbNode.subNodes[3].data, i + 8);
+
+				color = bc.ToInt32(dbNode.subNodes[3].data, i + 12);
+
+				normal.X = bc.ToSingle(dbNode.subNodes[3].data, i + 16);
+				normal.Y = bc.ToSingle(dbNode.subNodes[3].data, i + 20);
+				normal.Z = bc.ToSingle(dbNode.subNodes[3].data, i + 24);
+
+				vertices[vertexCount] = new CustomVertex.PositionNormalColored(pos, normal, color);
+				vertexCount++;
+			}
+
+			int indexCount = (int)rdsNode.subNodes[0].attributes["count"].data;
+			ushort[] indices = new ushort[indexCount];
+			for (int i = 0; i < indexCount; i++) {
+				indices[i] = bc.ToUInt16(rdsNode.subNodes[0].subNodes[0].data, i * 2);
+			}
+			return new Model(rdsNode.attributes["id"].value, vertices, indices);
 		}
 
 		private void listBox1_SelectedIndexChanged(object sender, EventArgs e) {
