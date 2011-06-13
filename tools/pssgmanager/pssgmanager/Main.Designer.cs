@@ -23,6 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,6 +43,13 @@
 			this.splitAllHorizontal = new System.Windows.Forms.SplitContainer();
 			this.buttonExportAll = new System.Windows.Forms.Button();
 			this.modelView1 = new PSSGManager.ModelView();
+			this.tabTextures = new System.Windows.Forms.TabPage();
+			this.splitContainerTextures = new System.Windows.Forms.SplitContainer();
+			this.treeViewTextures = new System.Windows.Forms.TreeView();
+			this.pictureBoxTextures = new System.Windows.Forms.PictureBox();
+			this.toolStripTextures = new System.Windows.Forms.ToolStrip();
+			this.toolStripButtonExport = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonImport = new System.Windows.Forms.ToolStripButton();
 			this.menuStrip1.SuspendLayout();
 			this.splitAllVertical.Panel1.SuspendLayout();
 			this.splitAllVertical.Panel2.SuspendLayout();
@@ -56,12 +64,16 @@
 			this.splitContainer2.Panel1.SuspendLayout();
 			this.splitContainer2.Panel2.SuspendLayout();
 			this.splitContainer2.SuspendLayout();
-			this.splitAllHorizontal.Panel1.SuspendLayout();
-			this.splitAllHorizontal.Panel2.SuspendLayout();
-			this.splitAllHorizontal.SuspendLayout();
+			this			this.splitAllHorizontal.SuspendLayout();
 			this.tabModels.SuspendLayout();
 			this.splitContainer2.Panel1.SuspendLayout();
 			this.splitContainer2.SuspendLayout();
+			this.tabTextures.SuspendLayout();
+			this.splitContainerTextures.Panel1.SuspendLayout();
+			this.splitContainerTextures.Panel2.SuspendLayout();
+			this.splitContainerTextures.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTextures)).BeginInit();
+			this.toolStripTextures.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -80,15 +92,22 @@
             this.openToolStripMenuItem,
             this.closeToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
 			// openToolStripMenuItem
 			// 
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
 			this.openToolStripMenuItem.Text = "Open...";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+			// 
+			// closeToolStripMenuItem
+			// 
+			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+			this.closeToolStripMenuItem.Text = "Close";
+			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
 			// 
 			// splitAllVertical
 			// 
@@ -148,6 +167,7 @@
 			// 
 			this.tabControl.Controls.Add(this.tabAll);
 			this.tabControl.Controls.Add(this.tabModels);
+			this.tabControl.Controls.Add(this.tabTextures);
 			this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl.Location = new System.Drawing.Point(0, 24);
 			this.tabControl.Name = "tabControl";
@@ -216,38 +236,122 @@
 			// splitContainer2.Panel1
 			// 
 			this.splitContainer2.Panel1.Controls.Add(this.listBox1);
+			this.splitContainer2.Size = new System.Drawing.Size(686, 373);
+			this.splitContainer2.SplitterDistance = 228;
 			// 
 			// splitContainer2.Panel2
-			// 
-			this.splitContainer2.Panel2.Controls.Add(this.modelView1);
-			this.splitContainer2.Size = new System.Drawing.Size(1180, 530);
+			// ze(1180, 530);
 			this.splitContainer2.SplitterDistance = 392;
+			this.splitContainer2.Size = new System.Drawing.Size(710, 344);
+			this.splitContainer2.SplitterDistance = 235;
 			this.splitContainer2.TabIndex = 0;
 			// 
 			// listBox1
 			// 
 			this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.listBox1.FormattingEnabled = true;
-			this.listBox1.Location = new System.Drawing.Point(0, 0);
-			this.listBox1.Name = "listBox1";
+			this.listBox1.FormattingEnabled = true; = new System.Drawing.Size(228, 373);
 			this.listBox1.Size = new System.Drawing.Size(392, 530);
+			this.listBox1.Size = new System.Drawing.Size(235, 344);
 			this.listBox1.TabIndex = 0;
 			this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
 			// 
+			// tabTextures
+			// 
+			this.tabTextures.Controls.Add(this.splitContainerTextures);
+			this.tabTextures.Controls.Add(this.toolStripTextures);
+			this.tabTextures.Location = new System.Drawing.Point(4, 22);
+			this.tabTextures.Name = "tabTextures";
+			this.tabTextures.Padding = new System.Windows.Forms.Padding(3);
+			this.tabTextures.Size = new System.Drawing.Size(716, 350);
+			this.tabTextures.TabIndex = 2;
+			this.tabTextures.Text = "Textures";
+			this.tabTextures.UseVisualStyleBackColor = true;
+			// 
+			// splitContainerTextures
+			// 
+			this.splitContainerTextures.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainerTextures.Location = new System.Drawing.Point(3, 28);
+			this.splitContainerTextures.Name = "splitContainerTextures";
+			// 
+			// splitContainerTextures.Panel1
+			// 
+			this.splitContainerTextures.Panel1.Controls.Add(this.treeViewTextures);
+			// 
+			// splitContainerTextures.Panel2
+			// 
+			this.splitContainerTextures.Panel2.Controls.Add(this.pictureBoxTextures);
+			this.splitContainerTextures.Size = new System.Drawing.Size(710, 319);
+			this.splitContainerTextures.SplitterDistance = 235;
+			this.splitContainerTextures.TabIndex = 1;
+			// 
+			// treeViewTextures
+			// 
+			this.treeViewTextures.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.treeViewTextures.Location = new System.Drawing.Point(0, 0);
+			this.treeViewTextures.Name = "treeViewTextures";
+			this.treeViewTextures.Size = new System.Drawing.Size(235, 319);
+			this.treeViewTextures.TabIndex = 0;is.treeViewTextures.AfterSelect +			// 
 			// closeToolStripMenuItem
+			// = new System.Windows.Forms.TreeViewEventHandler(this.treeViewTextures_AfterSelect);
 			// 
 			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
 			this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.closeToolStripMenuItem.Text = "Close";tripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.closeToolStripMenuItem.Text = "Close";
+			this.closeTool			this.closeToolStripMenuItem.Text = "Close";
 			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
 			this.splitAllHorizontal.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitAllHorizontal.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
 			this.splitAllHorizontal.IsSplitterFixed = true;
-			this.splitAllHorizontal.Location = new System.Drawing.Point(3, 3);
+		
+n  //			= new System.Drawing.Point(3, 3);
 			this.splitAllHorizontal.Name = "splitAllHorizontal";
 			this.splitAllHorizontal.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// pictureBoxTextures
 			// 
 			// splitAllHorizontal.Panel1
+			this.pictureBoxTextures.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pictureBoxTextures.Location = new System.Drawing.Point(0, 0);
+			this.pictureBoxTextures.Name = "pictureBoxTextures";
+			this.pictureBoxTextures.Size = new System.Drawing.Size(471, 319);
+			this.pictureBoxTextures.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+			this.pictureBoxTextures.TabIndex = 0;
+			this.pictureBoxTextures.TabStop = false;
+			// 
+			// toolStripTextures
+			// 
+			this.toolStripTextures.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.toolStripTextures.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonExport,
+            this.toolStripButtonImport});
+			this.toolStripTextures.Location = new System.Drawing.Point(3, 3);
+			this.toolStripTextures.Name = "toolStripTextures";
+			this.toolStripTextures.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.toolStripTextures.Size = new System.Drawing.Size(710, 25);
+			this.toolStripTextures.TabIndex = 2;
+			this.toolStripTextures.Text = "Texture Tools";
+			// 
+			// toolStripButtonExport
+			// 
+			this.toolStripButtonExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripButtonExport.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonExport.Image")));
+			this.toolStripButtonExport.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonExport.Name = "toolStripButtonExport";
+			this.toolStripButtonExport.Size = new System.Drawing.Size(43, 22);
+			this.toolStripButtonExport.Text = "Export";
+			this.toolStripButtonExport.Click += new System.EventHandler(this.toolStripButtonExport_Click);
+			// 
+			// toolStripButtonImport
+			// 
+			this.toolStripButtonImport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripButtonImport.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonImport.Image")));
+			this.toolStripButtonImport.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonImport.Name =
+			// splitAllHorizontal.Panel1 "too
+lStripButtonImport";			// 
+			this.toolStripButtonImport.Size = new System.Drawing.Size(43, 22);
+			this.toolStripButtonImport.Text = "Import";
+			this.toolStripButtonImport.Click += new System.EventHandler(this.toolStripButtonImport_Click);
 			// 
 			this.splitAllHorizontal.Panel1.Controls.Add(this.splitAllVertical);
 			// 
@@ -306,6 +410,14 @@
 			this.tabModels.ResumeLayout(false);
 			this.splitContainer2.Panel1.ResumeLayout(false);
 			this.splitContainer2.ResumeLayout(false);
+			this.tabTextures.ResumeLayout(false);
+			this.tabTextures.PerformLayout();
+			this.splitContainerTextures.Panel1.ResumeLayout(false);
+			this.splitContainerTextures.Panel2.ResumeLayout(false);
+			this.splitContainerTextures.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTextures)).EndInit();
+			this.toolStripTextures.ResumeLayout(false);
+			this.toolStripTextures.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -330,6 +442,13 @@
 		private System.Windows.Forms.Button buttonExportAll;
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
 		private ModelView modelView1;
+		private System.Windows.Forms.TabPage tabTextures;
+		private System.Windows.Forms.SplitContainer splitContainerTextures;
+		private System.Windows.Forms.TreeView treeViewTextures;
+		private System.Windows.Forms.PictureBox pictureBoxTextures;
+		private System.Windows.Forms.ToolStrip toolStripTextures;
+		private System.Windows.Forms.ToolStripButton toolStripButtonExport;
+		private System.Windows.Forms.ToolStripButton toolStripButtonImport;
 	}
 }
 
