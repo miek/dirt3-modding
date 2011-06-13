@@ -104,11 +104,14 @@ namespace PSSGManager {
 
 			switch (name) {
 				case "BOUNDINGBOX":
+				case "DATA":
 				case "DATABLOCKDATA":
 				case "DATABLOCKBUFFERED":
 				case "INDEXSOURCEDATA":
 				case "INVERSEBINDMATRIX":
 				case "MODIFIERNETWORKINSTANCEUNIQUEMODIFIERINPUT":
+				case "NeAnimPacketData_B1":
+				case "NeAnimPacketData_B4":
 				case "RENDERINTERFACEBOUNDBUFFERED":
 				case "SHADERINPUT":
 				case "TEXTUREIMAGEBLOCKDATA":
