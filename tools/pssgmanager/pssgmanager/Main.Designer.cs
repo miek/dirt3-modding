@@ -39,7 +39,7 @@
 			this.buttonExportAll = new System.Windows.Forms.Button();
 			this.tabModels = new System.Windows.Forms.TabPage();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-			this.listBox1 = new System.Windows.Forms.ListBox();
+			this.listBoxModels = new System.Windows.Forms.ListBox();
 			this.tabTextures = new System.Windows.Forms.TabPage();
 			this.splitContainerTextures = new System.Windows.Forms.SplitContainer();
 			this.treeViewTextures = new System.Windows.Forms.TreeView();
@@ -229,7 +229,7 @@
 			// 
 			// splitContainer2.Panel1
 			// 
-			this.splitContainer2.Panel1.Controls.Add(this.listBox1);
+			this.splitContainer2.Panel1.Controls.Add(this.listBoxModels);
 			// 
 			// splitContainer2.Panel2
 			// 
@@ -238,15 +238,15 @@
 			this.splitContainer2.SplitterDistance = 390;
 			this.splitContainer2.TabIndex = 0;
 			// 
-			// listBox1
+			// listBoxModels
 			// 
-			this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.listBox1.FormattingEnabled = true;
-			this.listBox1.Location = new System.Drawing.Point(0, 0);
-			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(390, 530);
-			this.listBox1.TabIndex = 0;
-			this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+			this.listBoxModels.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.listBoxModels.FormattingEnabled = true;
+			this.listBoxModels.Location = new System.Drawing.Point(0, 0);
+			this.listBoxModels.Name = "listBoxModels";
+			this.listBoxModels.Size = new System.Drawing.Size(390, 530);
+			this.listBoxModels.TabIndex = 0;
+			this.listBoxModels.SelectedIndexChanged += new System.EventHandler(this.listBoxModels_SelectedIndexChanged);
 			// 
 			// tabTextures
 			// 
@@ -387,9 +387,9 @@
 		private System.Windows.Forms.TabPage tabAll;
 		private System.Windows.Forms.TabPage tabModels;
 		private System.Windows.Forms.SplitContainer splitContainer2;
-		private System.Windows.Forms.ListBox listBox1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnValue;
+		private System.Windows.Forms.ListBox listBoxModels;
 		private System.Windows.Forms.SplitContainer splitAllHorizontal;
 		private System.Windows.Forms.Button buttonExportAll;
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;

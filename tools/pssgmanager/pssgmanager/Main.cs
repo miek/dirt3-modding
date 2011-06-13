@@ -31,7 +31,7 @@ namespace PSSGManager {
 				pssgFile = f;
 				treeView.Nodes.Add(createTreeViewNode(f.rootNode));
 
-				listBox1.Items.Clear();
+				listBoxModels.Items.Clear();
 				List<CNode> rdsNodes = f.findNodes("RENDERDATASOURCE");
 				models = new Model[rdsNodes.Count];
 				int i = 0;
@@ -39,7 +39,7 @@ namespace PSSGManager {
 					List<CNode> dbNodes = f.findNodes("DATABLOCK", "id", rdsNode.subNodes[1].attributes["dataBlock"].value.Substring(1));
 					if (dbNodes.Count == 1) {
 						models[i] = createModelFromNodes(rdsNode, dbNodes[0]);
-						listBox1.Items.Add(models[i]);
+						listBoxModels.Items.Add(models[i]);
 						i++;
 					} else {
 						// TODO: *shrug*
@@ -63,7 +63,7 @@ namespace PSSGManager {
 			dataGridViewAttributes.Rows.Clear();
 
 			// Models tab
-			listBox1.Items.Clear();
+			listBoxModels.Items.Clear();
 
 			// Textures tab
 			treeViewTextures.Nodes.Clear();
@@ -156,8 +156,8 @@ namespace PSSGManager {
 			return new Model(rdsNode.attributes["id"].value, vertices, indices);
 		}
 
-		private void listBox1_SelectedIndexChanged(object sender, EventArgs e) {
-			modelView1.RenderModel((Model)listBox1.SelectedItem);
+		private void listBoxModels_SelectedIndexChanged(object sender, EventArgs e) {
+			modelView1.RenderModel((Model)listBoxModels.SelectedItem);
 		}
 		#endregion
 
