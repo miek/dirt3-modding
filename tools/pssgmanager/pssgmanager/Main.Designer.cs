@@ -31,8 +31,6 @@
 			this.splitAllVertical = new System.Windows.Forms.SplitContainer();
 			this.treeView = new System.Windows.Forms.TreeView();
 			this.dataGridViewAttributes = new System.Windows.Forms.DataGridView();
-			this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ColumnValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabAll = new System.Windows.Forms.TabPage();
 			this.splitAllHorizontal = new System.Windows.Forms.SplitContainer();
@@ -47,6 +45,8 @@
 			this.toolStripTextures = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonExport = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonImport = new System.Windows.Forms.ToolStripButton();
+			this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ColumnValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.menuStrip1.SuspendLayout();
 			this.splitAllVertical.Panel1.SuspendLayout();
 			this.splitAllVertical.Panel2.SuspendLayout();
@@ -84,20 +84,20 @@
             this.openToolStripMenuItem,
             this.closeToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
 			// openToolStripMenuItem
 			// 
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
 			this.openToolStripMenuItem.Text = "Open...";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
 			// 
 			// closeToolStripMenuItem
 			// 
 			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-			this.closeToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
 			this.closeToolStripMenuItem.Text = "Close";
 			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
 			// 
@@ -141,19 +141,6 @@
 			this.dataGridViewAttributes.ReadOnly = true;
 			this.dataGridViewAttributes.Size = new System.Drawing.Size(471, 309);
 			this.dataGridViewAttributes.TabIndex = 0;
-			// 
-			// ColumnName
-			// 
-			this.ColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ColumnName.HeaderText = "Name";
-			this.ColumnName.Name = "ColumnName";
-			this.ColumnName.ReadOnly = true;
-			// 
-			// ColumnValue
-			// 
-			this.ColumnValue.HeaderText = "Value";
-			this.ColumnValue.Name = "ColumnValue";
-			this.ColumnValue.ReadOnly = true;
 			// 
 			// tabControl
 			// 
@@ -308,7 +295,7 @@
 			this.toolStripButtonExport.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonExport.Image")));
 			this.toolStripButtonExport.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButtonExport.Name = "toolStripButtonExport";
-			this.toolStripButtonExport.Size = new System.Drawing.Size(43, 22);
+			this.toolStripButtonExport.Size = new System.Drawing.Size(44, 22);
 			this.toolStripButtonExport.Text = "Export";
 			this.toolStripButtonExport.Click += new System.EventHandler(this.toolStripButtonExport_Click);
 			// 
@@ -318,9 +305,23 @@
 			this.toolStripButtonImport.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonImport.Image")));
 			this.toolStripButtonImport.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButtonImport.Name = "toolStripButtonImport";
-			this.toolStripButtonImport.Size = new System.Drawing.Size(43, 22);
+			this.toolStripButtonImport.Size = new System.Drawing.Size(47, 22);
 			this.toolStripButtonImport.Text = "Import";
 			this.toolStripButtonImport.Click += new System.EventHandler(this.toolStripButtonImport_Click);
+			// 
+			// ColumnName
+			// 
+			this.ColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ColumnName.HeaderText = "Name";
+			this.ColumnName.Name = "ColumnName";
+			this.ColumnName.ReadOnly = true;
+			// 
+			// ColumnValue
+			// 
+			this.ColumnValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ColumnValue.HeaderText = "Value";
+			this.ColumnValue.Name = "ColumnValue";
+			this.ColumnValue.ReadOnly = true;
 			// 
 			// Main
 			// 
@@ -372,8 +373,6 @@
 		private System.Windows.Forms.TabPage tabModels;
 		private System.Windows.Forms.SplitContainer splitContainer2;
 		private System.Windows.Forms.ListBox listBox1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnValue;
 		private System.Windows.Forms.SplitContainer splitAllHorizontal;
 		private System.Windows.Forms.Button buttonExportAll;
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
@@ -384,6 +383,8 @@
 		private System.Windows.Forms.ToolStrip toolStripTextures;
 		private System.Windows.Forms.ToolStripButton toolStripButtonExport;
 		private System.Windows.Forms.ToolStripButton toolStripButtonImport;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnValue;
 	}
 }
 
