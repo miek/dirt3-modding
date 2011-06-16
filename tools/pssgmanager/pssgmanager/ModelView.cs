@@ -11,9 +11,12 @@ namespace PSSGManager {
 	public class ModelView : UserControl {
 		protected Device device = null;
 		private System.Diagnostics.Process process1;
+		public Dictionary<String, RenderDataSource> renderDataSources;
 		private Model model;
 		private VertexBuffer vertexBuffer;
 		private IndexBuffer indexBuffer;
+
+		private double rot = 0;
 
 		protected bool initialised = false;
 		public bool Initialised {
@@ -43,28 +46,27 @@ namespace PSSGManager {
 		}
 
 		private void Render() {
-			/*CustomVertex.TransformedColored[] vertexes = new CustomVertex.TransformedColored[3];
-
-			vertexes[0].Position = new Vector4(50, 50, 0, 1.0f);
-			vertexes[0].Color = System.Drawing.Color.FromArgb(0, 255, 0).ToArgb();
-
-			vertexes[1].Position = new Vector4(500, 50, 0, 1.0f);
-			vertexes[1].Color = System.Drawing.Color.FromArgb(0, 0, 255).ToArgb();
-
-			vertexes[2].Position = new Vector4(50, 250, 0, 1.0f);
-			vertexes[2].Color = System.Drawing.Color.FromArgb(255, 0, 0).ToArgb();
-
-			device.VertexFormat = CustomVertex.TransformedColored.Format;
-			device.DrawUserPrimitives(PrimitiveType.TriangleList, 1, vertexes);*/
-
 			device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.White, 1.0f, 0);
 			device.BeginScene();
+
+			float x = (float)Math.Cos(rot);
+			float z = (float)Math.Sin(rot);
+			device.Transform.Projection = Matrix.PerspectiveFovLH((float)Math.PI / 4, this.Width / this.Height, 1f, 50f);
+			device.Transform.View = Matrix.LookAtLH(new Vector3(x, 6, z), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
+			device.RenderState.Lighting = true;
+			device.Lights[0].Type = LightType.Directional;
+			device.Lights[0].Diffuse = Color.White;
+			device.Lights[0].Direction = new Vector3(-x, -6, -z);
+			device.Lights[0].Position = new Vector3(x, 6, z);
+			device.Lights[0].Enabled = true;
+
+			device.Transform.World = model.transform;
 
 			device.VertexFormat = CustomVertex.PositionNormalColored.Format;
 			device.SetStreamSource(0, vertexBuffer, 0);
 			device.Indices = indexBuffer;
 
-			device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, model.vertices.Length, 0, model.indices.Length / 3);
+			device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, model.getVertices().Length, 0, model.getIndices().Length / 3);
 
 			device.EndScene();
 			device.Present();
@@ -72,22 +74,18 @@ namespace PSSGManager {
 
 		public void RenderModel(Model model) {
 			this.model = model;
-			vertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionNormalColored), model.vertices.Length,
+			vertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionNormalColored), model.getVertices().Length,
 										device, Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionNormalColored.Format, Pool.Default);
-			vertexBuffer.SetData(model.vertices, 0, LockFlags.None);
+			vertexBuffer.SetData(model.getVertices(), 0, LockFlags.None);
 
-			indexBuffer = new IndexBuffer(typeof(ushort), model.indices.Length, device, Usage.WriteOnly, Pool.Default);
-			indexBuffer.SetData(model.indices, 0, LockFlags.None);
+			indexBuffer = new IndexBuffer(typeof(ushort), model.getIndices().Length, device, Usage.WriteOnly, Pool.Default);
+			indexBuffer.SetData(model.getIndices(), 0, LockFlags.None);
 
-			device.Transform.Projection = Matrix.PerspectiveFovLH((float)Math.PI / 4, this.Width / this.Height, 1f, 50f);
-			device.Transform.View = Matrix.LookAtLH(new Vector3(-3, 3, 3), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
-			device.RenderState.Lighting = true;
-			device.Lights[0].Type = LightType.Directional;
-			device.Lights[0].Diffuse = Color.White;
-			device.Lights[0].Direction = new Vector3(3, -3, -3);
-			device.Lights[0].Position = new Vector3(-3, 3, 3);
-			device.Lights[0].Enabled = true;
+			Render();
+		}
 
+		public void Rotate(double diff) {
+			rot += diff;
 			Render();
 		}
 
@@ -124,6 +122,7 @@ namespace PSSGManager {
 			// ModelView
 			// 
 			this.Name = "ModelView";
+			this.Size = new System.Drawing.Size(458, 302);
 			this.ResumeLayout(false);
 
 		}
@@ -131,10 +130,48 @@ namespace PSSGManager {
 
 	public class Model {
 		public string name;
+		public RenderDataSource renderDataSource;
+
+		public Matrix transform;
+
+		public int streamOffset;
+		public int elementCount;
+		public int indexOffset;
+		public int indicesCount;
+
+		public string blah;
+
+		public Model(string name, RenderDataSource renderDataSource, Matrix transform, int streamOffset, int elementCount, int indexOffset, int indicesCount) {
+			this.name = name;
+			this.renderDataSource = renderDataSource;
+			this.transform = transform;
+			this.streamOffset = streamOffset; // Unsure what these are for, vertex stream should not be split up!
+			this.elementCount = elementCount; //
+			this.indexOffset = indexOffset;
+			this.indicesCount = indicesCount;
+		}
+
+		public CustomVertex.PositionNormalColored[] getVertices() {
+			return renderDataSource.vertices;
+		}
+
+		public ushort[] getIndices() {
+			ushort[] indices = new ushort[indicesCount];
+			Array.Copy(renderDataSource.indices, indexOffset, indices, 0, indicesCount);
+			return indices;
+		}
+
+		public override string ToString() {
+			return name;
+		}
+	}
+
+	public class RenderDataSource {
+		public string name;
 		public CustomVertex.PositionNormalColored[] vertices;
 		public ushort[] indices;
 
-		public Model(string name, CustomVertex.PositionNormalColored[] vertices, ushort[] indices) {
+		public RenderDataSource(string name, CustomVertex.PositionNormalColored[] vertices, ushort[] indices) {
 			this.name = name;
 			this.vertices = vertices;
 			this.indices = indices;

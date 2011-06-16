@@ -12,7 +12,6 @@ using Microsoft.DirectX.Direct3D;
 namespace PSSGManager {
 	public partial class Main : Form {
 		private CPSSGFile pssgFile;
-		private Model[] models;
 
 		public Main() {
 			InitializeComponent();
@@ -32,20 +31,37 @@ namespace PSSGManager {
 				treeView.Nodes.Add(createTreeViewNode(f.rootNode));
 
 				listBoxModels.Items.Clear();
-				List<CNode> rdsNodes = f.findNodes("RENDERDATASOURCE");
-				models = new Model[rdsNodes.Count];
+				Model[] models = new Model[f.findNodes("MATRIXPALETTEJOINTRENDERINSTANCE").Count];
+				modelView1.renderDataSources = new Dictionary<string,RenderDataSource>();
+
 				int i = 0;
-				foreach (CNode rdsNode in rdsNodes) {
-					List<CNode> dbNodes = f.findNodes("DATABLOCK", "id", rdsNode.subNodes[1].attributes["dataBlock"].value.Substring(1));
-					if (dbNodes.Count == 1) {
-						models[i] = createModelFromNodes(rdsNode, dbNodes[0]);
-						listBoxModels.Items.Add(models[i]);
-						i++;
-					} else {
-						// TODO: *shrug*
+				List<CNode> mpbnNodes = f.findNodes("MATRIXPALETTEBUNDLENODE");
+				foreach (CNode mpbnNode in mpbnNodes) {
+					List<CNode> mpjnNodes = mpbnNode.findNodes("MATRIXPALETTEJOINTNODE");
+					foreach (CNode mpjnNode in mpjnNodes) {
+						Matrix transform = getTransform((byte[])mpjnNode.subNodes[0].data);
+						foreach (CNode mpjriNode in mpjnNode.findNodes("MATRIXPALETTEJOINTRENDERINSTANCE")) {
+							string rdsId = mpjriNode.attributes["indices"].value.Substring(1);
+							RenderDataSource renderDataSource;
+
+							if (!modelView1.renderDataSources.TryGetValue(rdsId, out renderDataSource)) {
+								CNode rdsNode = f.findNodes("RENDERDATASOURCE", "id", rdsId)[0];
+								CNode dbNode = f.findNodes("DATABLOCK", "id", rdsNode.subNodes[1].attributes["dataBlock"].value.Substring(1))[0];
+
+								renderDataSource = createRenderDataSourceFromNodes(rdsNode, dbNode);
+								modelView1.renderDataSources.Add(rdsNode.attributes["id"].value, renderDataSource);
+							}
+
+							models[i] = new Model(mpjnNode.attributes["id"].ToString() + mpjriNode.attributes["shader"].ToString(), renderDataSource, transform,
+								(int)mpjriNode.attributes["streamOffset"].data, (int)mpjriNode.attributes["elementCountFromOffset"].data,
+								(int)mpjriNode.attributes["indexOffset"].data, (int)mpjriNode.attributes["indicesCountFromOffset"].data);
+							listBoxModels.Items.Add(models[i]);
+							i++;
+						}
 					}
 				}
-		                createTreeViewTexturesList(f.rootNode);
+
+				createTreeViewTexturesList(f.rootNode);
 			} else {
 
 			}
@@ -125,7 +141,7 @@ namespace PSSGManager {
 		#endregion
 
 		#region Models
-		private Model createModelFromNodes(CNode rdsNode, CNode dbNode) {
+		private RenderDataSource createRenderDataSourceFromNodes(CNode rdsNode, CNode dbNode) {
 			MiscUtil.Conversion.BigEndianBitConverter bc = new MiscUtil.Conversion.BigEndianBitConverter();
 			CustomVertex.PositionNormalColored[] vertices = new CustomVertex.PositionNormalColored[(int)dbNode.attributes["elementCount"].data];
 
@@ -153,7 +169,36 @@ namespace PSSGManager {
 			for (int i = 0; i < indexCount; i++) {
 				indices[i] = bc.ToUInt16(rdsNode.subNodes[0].subNodes[0].data, i * 2);
 			}
-			return new Model(rdsNode.attributes["id"].value, vertices, indices);
+			return new RenderDataSource(rdsNode.attributes["id"].value, vertices, indices);
+		}
+
+		private Matrix getTransform(byte[] buffer) {
+			Matrix t = new Matrix();
+			MiscUtil.Conversion.BigEndianBitConverter bc = new MiscUtil.Conversion.BigEndianBitConverter();
+
+			// Surely i've missed something and there's a way to loop through this? Please?
+			int i = 0;
+			t.M11 = bc.ToSingle(buffer, i); i += 4;
+			t.M12 = bc.ToSingle(buffer, i); i += 4;
+			t.M13 = bc.ToSingle(buffer, i); i += 4;
+			t.M14 = bc.ToSingle(buffer, i); i += 4;
+
+			t.M21 = bc.ToSingle(buffer, i); i += 4;
+			t.M22 = bc.ToSingle(buffer, i); i += 4;
+			t.M23 = bc.ToSingle(buffer, i); i += 4;
+			t.M24 = bc.ToSingle(buffer, i); i += 4;
+
+			t.M31 = bc.ToSingle(buffer, i); i += 4;
+			t.M32 = bc.ToSingle(buffer, i); i += 4;
+			t.M33 = bc.ToSingle(buffer, i); i += 4;
+			t.M34 = bc.ToSingle(buffer, i); i += 4;
+
+			t.M41 = bc.ToSingle(buffer, i); i += 4;
+			t.M42 = bc.ToSingle(buffer, i); i += 4;
+			t.M43 = bc.ToSingle(buffer, i); i += 4;
+			t.M44 = bc.ToSingle(buffer, i); i += 4;
+
+			return t;
 		}
 
 		private void listBoxModels_SelectedIndexChanged(object sender, EventArgs e) {
@@ -298,5 +343,13 @@ namespace PSSGManager {
 			}
 		}
 		#endregion
+
+		private void buttonRotateLeft_Click(object sender, EventArgs e) {
+			modelView1.Rotate(-0.1);
+		}
+
+		private void buttonRotateRight_Click(object sender, EventArgs e) {
+			modelView1.Rotate(0.1);
+		}
 	}
 }

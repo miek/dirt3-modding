@@ -31,13 +31,18 @@
 			this.splitAllVertical = new System.Windows.Forms.SplitContainer();
 			this.treeView = new System.Windows.Forms.TreeView();
 			this.dataGridViewAttributes = new System.Windows.Forms.DataGridView();
+			this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ColumnValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabAll = new System.Windows.Forms.TabPage();
 			this.splitAllHorizontal = new System.Windows.Forms.SplitContainer();
 			this.buttonExportAll = new System.Windows.Forms.Button();
 			this.tabModels = new System.Windows.Forms.TabPage();
+			this.buttonRotateRight = new System.Windows.Forms.Button();
+			this.buttonRotateLeft = new System.Windows.Forms.Button();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.listBoxModels = new System.Windows.Forms.ListBox();
+			this.modelView1 = new PSSGManager.ModelView();
 			this.tabTextures = new System.Windows.Forms.TabPage();
 			this.splitContainerTextures = new System.Windows.Forms.SplitContainer();
 			this.treeViewTextures = new System.Windows.Forms.TreeView();
@@ -45,9 +50,6 @@
 			this.toolStripTextures = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonExport = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonImport = new System.Windows.Forms.ToolStripButton();
-			this.modelView1 = new PSSGManager.ModelView();
-			this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ColumnValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.menuStrip1.SuspendLayout();
 			this.splitAllVertical.Panel1.SuspendLayout();
 			this.splitAllVertical.Panel2.SuspendLayout();
@@ -144,6 +146,20 @@
 			this.dataGridViewAttributes.Size = new System.Drawing.Size(786, 495);
 			this.dataGridViewAttributes.TabIndex = 0;
 			// 
+			// ColumnName
+			// 
+			this.ColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ColumnName.HeaderText = "Name";
+			this.ColumnName.Name = "ColumnName";
+			this.ColumnName.ReadOnly = true;
+			// 
+			// ColumnValue
+			// 
+			this.ColumnValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ColumnValue.HeaderText = "Value";
+			this.ColumnValue.Name = "ColumnValue";
+			this.ColumnValue.ReadOnly = true;
+			// 
 			// tabControl
 			// 
 			this.tabControl.Controls.Add(this.tabAll);
@@ -199,6 +215,8 @@
 			// 
 			// tabModels
 			// 
+			this.tabModels.Controls.Add(this.buttonRotateRight);
+			this.tabModels.Controls.Add(this.buttonRotateLeft);
 			this.tabModels.Controls.Add(this.splitContainer2);
 			this.tabModels.Location = new System.Drawing.Point(4, 22);
 			this.tabModels.Name = "tabModels";
@@ -208,9 +226,30 @@
 			this.tabModels.Text = "Models";
 			this.tabModels.UseVisualStyleBackColor = true;
 			// 
+			// buttonRotateRight
+			// 
+			this.buttonRotateRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonRotateRight.Location = new System.Drawing.Point(774, 502);
+			this.buttonRotateRight.Name = "buttonRotateRight";
+			this.buttonRotateRight.Size = new System.Drawing.Size(75, 23);
+			this.buttonRotateRight.TabIndex = 5;
+			this.buttonRotateRight.Text = ">>";
+			this.buttonRotateRight.UseVisualStyleBackColor = true;
+			this.buttonRotateRight.Click += new System.EventHandler(this.buttonRotateRight_Click);
+			// 
+			// buttonRotateLeft
+			// 
+			this.buttonRotateLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonRotateLeft.Location = new System.Drawing.Point(397, 502);
+			this.buttonRotateLeft.Name = "buttonRotateLeft";
+			this.buttonRotateLeft.Size = new System.Drawing.Size(75, 23);
+			this.buttonRotateLeft.TabIndex = 4;
+			this.buttonRotateLeft.Text = "<<";
+			this.buttonRotateLeft.UseVisualStyleBackColor = true;
+			this.buttonRotateLeft.Click += new System.EventHandler(this.buttonRotateLeft_Click);
+			// 
 			// splitContainer2
 			// 
-			this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainer2.Location = new System.Drawing.Point(3, 3);
 			this.splitContainer2.Name = "splitContainer2";
 			// 
@@ -221,7 +260,7 @@
 			// splitContainer2.Panel2
 			// 
 			this.splitContainer2.Panel2.Controls.Add(this.modelView1);
-			this.splitContainer2.Size = new System.Drawing.Size(1180, 530);
+			this.splitContainer2.Size = new System.Drawing.Size(1180, 493);
 			this.splitContainer2.SplitterDistance = 390;
 			this.splitContainer2.TabIndex = 0;
 			// 
@@ -231,9 +270,17 @@
 			this.listBoxModels.FormattingEnabled = true;
 			this.listBoxModels.Location = new System.Drawing.Point(0, 0);
 			this.listBoxModels.Name = "listBoxModels";
-			this.listBoxModels.Size = new System.Drawing.Size(390, 530);
+			this.listBoxModels.Size = new System.Drawing.Size(390, 493);
 			this.listBoxModels.TabIndex = 0;
 			this.listBoxModels.SelectedIndexChanged += new System.EventHandler(this.listBoxModels_SelectedIndexChanged);
+			// 
+			// modelView1
+			// 
+			this.modelView1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.modelView1.Location = new System.Drawing.Point(0, 0);
+			this.modelView1.Name = "modelView1";
+			this.modelView1.Size = new System.Drawing.Size(786, 493);
+			this.modelView1.TabIndex = 0;
 			// 
 			// tabTextures
 			// 
@@ -316,28 +363,6 @@
 			this.toolStripButtonImport.Text = "Import";
 			this.toolStripButtonImport.Click += new System.EventHandler(this.toolStripButtonImport_Click);
 			// 
-			// modelView1
-			// 
-			this.modelView1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.modelView1.Location = new System.Drawing.Point(0, 0);
-			this.modelView1.Name = "modelView1";
-			this.modelView1.Size = new System.Drawing.Size(786, 530);
-			this.modelView1.TabIndex = 0;
-			// 
-			// ColumnName
-			// 
-			this.ColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ColumnName.HeaderText = "Name";
-			this.ColumnName.Name = "ColumnName";
-			this.ColumnName.ReadOnly = true;
-			// 
-			// ColumnValue
-			// 
-			this.ColumnValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ColumnValue.HeaderText = "Value";
-			this.ColumnValue.Name = "ColumnValue";
-			this.ColumnValue.ReadOnly = true;
-			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -402,6 +427,8 @@
 		private System.Windows.Forms.ToolStripButton toolStripButtonImport;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnValue;
+		private System.Windows.Forms.Button buttonRotateRight;
+		private System.Windows.Forms.Button buttonRotateLeft;
 	}
 }
 
