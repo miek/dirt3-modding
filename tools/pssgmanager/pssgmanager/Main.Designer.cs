@@ -31,8 +31,6 @@
 			this.splitAllVertical = new System.Windows.Forms.SplitContainer();
 			this.treeView = new System.Windows.Forms.TreeView();
 			this.dataGridViewAttributes = new System.Windows.Forms.DataGridView();
-			this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ColumnValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabAll = new System.Windows.Forms.TabPage();
 			this.splitAllHorizontal = new System.Windows.Forms.SplitContainer();
@@ -48,6 +46,8 @@
 			this.toolStripButtonExport = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonImport = new System.Windows.Forms.ToolStripButton();
 			this.modelView1 = new PSSGManager.ModelView();
+			this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ColumnValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.menuStrip1.SuspendLayout();
 			this.splitAllVertical.Panel1.SuspendLayout();
 			this.splitAllVertical.Panel2.SuspendLayout();
@@ -143,19 +143,6 @@
 			this.dataGridViewAttributes.ReadOnly = true;
 			this.dataGridViewAttributes.Size = new System.Drawing.Size(786, 495);
 			this.dataGridViewAttributes.TabIndex = 0;
-			// 
-			// ColumnName
-			// 
-			this.ColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ColumnName.HeaderText = "Name";
-			this.ColumnName.Name = "ColumnName";
-			this.ColumnName.ReadOnly = true;
-			// 
-			// ColumnValue
-			// 
-			this.ColumnValue.HeaderText = "Value";
-			this.ColumnValue.Name = "ColumnValue";
-			this.ColumnValue.ReadOnly = true;
 			// 
 			// tabControl
 			// 
@@ -337,6 +324,20 @@
 			this.modelView1.Size = new System.Drawing.Size(786, 530);
 			this.modelView1.TabIndex = 0;
 			// 
+			// ColumnName
+			// 
+			this.ColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ColumnName.HeaderText = "Name";
+			this.ColumnName.Name = "ColumnName";
+			this.ColumnName.ReadOnly = true;
+			// 
+			// ColumnValue
+			// 
+			this.ColumnValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.ColumnValue.HeaderText = "Value";
+			this.ColumnValue.Name = "ColumnValue";
+			this.ColumnValue.ReadOnly = true;
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -387,8 +388,6 @@
 		private System.Windows.Forms.TabPage tabAll;
 		private System.Windows.Forms.TabPage tabModels;
 		private System.Windows.Forms.SplitContainer splitContainer2;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnValue;
 		private System.Windows.Forms.ListBox listBoxModels;
 		private System.Windows.Forms.SplitContainer splitAllHorizontal;
 		private System.Windows.Forms.Button buttonExportAll;
@@ -401,6 +400,8 @@
 		private System.Windows.Forms.ToolStrip toolStripTextures;
 		private System.Windows.Forms.ToolStripButton toolStripButtonExport;
 		private System.Windows.Forms.ToolStripButton toolStripButtonImport;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnValue;
 	}
 }
 
