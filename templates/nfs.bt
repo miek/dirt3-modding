@@ -1,0 +1,62 @@
+//--------------------------------------
+//--- 010 Editor v3.1.3 Binary Template
+//
+// File: nfs.bt
+// Author: Mike
+// Purpose: Label DiRT3 speech files, currently hardcoded for en_codriver2_aspen.nfs
+//--------------------------------------
+LittleEndian();
+
+// First section eems compressed or encrypted, *shrug*
+FSkip(0x80);
+
+typedef struct {
+    int dataoffset;
+    if (dataoffset != 0) {
+        local int ptr = FTell();
+        FSeek(dataoffset);
+        // Not sure about length
+        // maybe just have to calculate difference between this + next dataoffset?
+        char magic[4];
+        FSeek(ptr);
+    }
+    int pad;
+    int pad;
+    int pad;
+    int pad;
+    int id;
+} INDEX <read=readIndex, optimize=false>;
+
+string readIndex(INDEX &index) {
+    string ret;
+    local int i;
+    SPrintf(ret, "ID: %d // Data: %d // ETC: %d", index.id, index.dataoffset, index.pad[0]);
+    for (i = 1; i < sizeof(index.pad); i++) {
+        SPrintf(ret, "%s : %d", ret, index.pad[i]);
+    }
+    return ret;
+}
+
+
+struct FILE {
+    INDEX wierdindex[3];
+    INDEX indices[118];
+    
+    struct {
+        int pad;
+        int pad;
+        int pad;
+        int pad;
+        int pad;
+        int pad;
+        int pad;
+    } test[121];
+    
+    struct {
+        string s;
+    } strs[121] <optimize=false>;
+    string extra; // err.. dunno
+    
+    // Unknown data follows, loses any structure at 0x26D0
+    // First audio data at 0x20000
+} file;
