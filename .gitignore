@@ -1,3 +1,6 @@
+*.nfs
+*.pssg
+
 
 #ignore thumbnails created by windows
 Thumbs.db
