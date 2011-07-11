@@ -19,34 +19,30 @@ struct HSHS {
 struct HSHT {
     char hsht[4];
     int size;
-    int items[size / 4];
+    struct HSHT_Entry {
+        int bucket;
+        int count;
+    } items[size / 8];
 } hsht;
 
 struct SIDA {
     char hsht[4];
     int size;
     int pad;
-    int items[size / 4];
+    struct SIDA_Entry {
+        int sidb_offset;
+        int lngb_offset;
+    } items[size / 8];
 } sida;
 
 struct SIDB {
     char sidb[4];
     int size;
-    local int end = FTell() + size;
-    while (FTell() < end) {
-        struct {
-            string s;
-        } items;
-    }
+    char items[size];
 } sidb;
 
 struct LNGB {
     char lngb[4];
     int size;
-    local int end = FTell() + size;
-    while (FTell() < end) {
-        struct {
-            string s;
-        } items;
-    }
+    char items[size];
 } lngb;
