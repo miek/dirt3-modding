@@ -9,66 +9,77 @@ LittleEndian();
 
 int pad;
 int flag;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
+if (flag >= 10) float abs_strength;
+if (flag >= 8) float air_density_multiple;
+float air_resistance_x;
+float air_resistance_y;
+float air_resistance_z;
+if (flag >= 12) float ambient_temperature;
+float anti_roll_front;
+float anti_roll_rear;
+if (flag >= 10) float atc_strength;
+float auto_clutch_full_point;
+if (flag >= 14) float auto_clutch_gear_delay;
+float auto_clutch_zero_point;
+if (flag >= 28) {
+    float boost_duration;
+    float boost_multiplier;
+}
+float unknown; // bool
+if (flag < 9) {
+    float brake_torque_front;
+    float brake_torque_rear;
+} else {
+    float brake_bias;
+    float brake_torque_total;
+}
+if (flag >= 21) float bumpy_surface_amplification;
+float bumpy_surface_factor;
+if (flag >= 30) float camber_back_grip;
+float camber_back_left;
+float camber_back_right;
+if (flag >= 30) float camber_front_grip;
+float camber_front_left;
+float camber_front_right;
+float centre_diff_full_effect_rate;
+float centre_diff_max_torque;
+float centre_dff_no_effect_rate;
+float chase_cam_velocity_prop;
+float clutch_gear_time;
+float clutch_lift_rate;
+float clutch_max_torque;
 string s;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
+float com_y;
+float com_z;
+if (flag >= 24) {
+    float cs_history_time;
+    float cs_maximum_boost;
+    float cs_tighest_corner_radius; // not my typo!
+}
+if (flag >= 26) {
+    float da_additional_acc;
+    float da_drift_angle;
+    float da_enable_speed;
+    float da_full_speed;
+    float da_proportion_to_turn_acc;
+}
+float damping_front;
+float damping_rear;
+float diff_off_throttle_multiplier;
+int unknown;
+float downforce_central;
+float downforce_directionality;
+float downforce_pressure_point;
+float downforce_pressure_point_in_air;
+float downforce_pressure_point_in_air_upwards;
+float downforce_proportion_front_bumper;
+float downforce_proportion_front_wing;
+float downforce_proportion_spoiler;
+float downforce_rear_and_front;
+int unknown;
 string s2;
-float pad;
-float pad;
+float engine_friction;
+float engine_inertia;
 string s3;
 float pad;
 float pad;
@@ -112,15 +123,13 @@ float gear_6th;
 float gear_7th;
 float gear_8th;
 if (flag >= 35) {
-    struct {
-        float gear_power_mod_1;
-        float gear_power_mod_2;
-        float gear_power_mod_3;
-        float gear_power_mod_4;
-        float gear_power_mod_5;
-        float gear_power_mod_6;
-        float gear_power_mod_7;
-    } optional;
+    float gear_power_mod_1;
+    float gear_power_mod_2;
+    float gear_power_mod_3;
+    float gear_power_mod_4;
+    float gear_power_mod_5;
+    float gear_power_mod_6;
+    float gear_power_mod_7;
 }
 float grip_reverse;
 float grip_front;
@@ -132,9 +141,7 @@ float gsteer_lock_reduce_rate;
 float gsteer_proportion;
 float handbrake_grip_loss;
 float handbrake_strength_multiple;
-if (flag >= 0) {
-    int unknown; // exe reads this, then casts to a bool
-}
+if (flag >= 0) int unknown;
 float high_speed_for_steering_rate;
 float high_speed_steering_rate;
 float idle_rate;
@@ -143,33 +150,29 @@ float inerter_rear;
 float inertia_x;
 float inertia_y;
 float inertia_z;
-if (flag >= 19) {
-    struct { float jump_anti_gravity; } optional;
-}
+if (flag >= 19) float jump_anti_gravity;
 if (flag >= 18) {
-    struct {
-        float jumpassist_fall_rate;
-        float jumpassist_multiple_cap;
-        float jumpassist_fall_rate; // Again? you so crazy CM
-    } optional;
+    float jumpassist_fall_rate;
+    float jumpassist_multiple_cap;
+    float jumpassist_fall_rate; // Again? you so crazy CM
 }
 float pad;
 int pad;
 int pad;
-float pad;
-float pad;
-float pad;
-float pad;
+float low_speed_for_steering_rate;
+float low_speed_steering_rate;
+float lowspeed_engine_momentum_boost;
+float magic_brake;
 float mass;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
+float max_steering_lock;
+float max_wheel_height_front;
+float max_wheel_height_rear;
+float min_wheel_height_front;
+float min_wheel_height_rear;
 string s5;
-float pad;
-float pad;
-float pad;
+int unknown;
+float pad_auto_steer;
+float pad_linearity;
 int pad;
 float pad;
 float pad;
@@ -294,11 +297,7 @@ float pad;
 float pad;
 float pad;
 float pad;
-if (flag >= 34) {
-    struct {
-        float speed_for_optimal_launch; // This could be any of the 5 prev. values
-    } optional;
-}
+if (flag >= 34) float speed_for_optimal_launch; // This could be any of the 5 prev. values
 string s6;
 string s7;
 float pad;
@@ -349,19 +348,17 @@ float pad;
 float pad;
 float test;
 if (flag >= 32) {
-    struct {
-        float pad;
-        float pad;
-        float pad;
-        float pad;
-        float pad;
-        float pad;
-        float pad;
-    } optional;
+    float pad;
+    float pad;
+    float pad;
+    float pad;
+    float pad;
+    float pad;
+    float pad;
 }
-if (flag >= 30) struct { float pad; } optional;
-if (flag >= 31) struct { float pad; } optional;
-if (flag >= 33) struct { float pad; } optional;
-if (flag >= 30) struct { float pad; } optional;
-if (flag >= 31) struct { float pad; } optional;
+if (flag >= 30) float pad;
+if (flag >= 31) float pad;
+if (flag >= 33) float pad;
+if (flag >= 30) float pad;
+if (flag >= 31) float pad;
 float pad;
