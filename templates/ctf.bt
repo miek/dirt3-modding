@@ -166,7 +166,7 @@ if (flag >= 18) {
     float jumpassist_fall_rate; // Again? you so crazy CM
 }
 int pad; // bool
-int pad; // bool
+int flag_unk1; // bool
 int pad;
 float low_speed_for_steering_rate;
 float low_speed_steering_rate;
@@ -182,69 +182,28 @@ string s5;
 int unknown;
 float pad_auto_steer;
 float pad_linearity;
-int pad;
+if (flag_unk1) {
+    int count1;
+    float pad;
+    if (count1 >= 0) {
+        local int i = 0;
+        do {
+            float pad;
+            i++;
+        } while (i < count1);
+    }
+}
+float pad_min_lock;
+int unknown; // bool
+int count2;
 float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-int pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
-float pad;
+if (count2 >= 0) {
+    i = 0;
+    do {
+        float pad;
+        i++;
+    } while (i < count2);
+}
 float rear_burst_tyre_grip_multiple;
 float rear_castor;
 if (flag <= 6) float rear_damper_post_zone_scale; // odd!
