@@ -32,7 +32,7 @@ namespace PSSGManager {
 			pp.DeviceWindowHandle = this.Handle;
 
 			device = new Device(0, DeviceType.Hardware, this, CreateFlags.HardwareVertexProcessing, pp);
-			//device.RenderState.FillMode = FillMode.WireFrame;
+			device.RenderState.FillMode = FillMode.WireFrame;
 
 			device.DeviceReset += new EventHandler(this.OnDeviceReset);
 
@@ -52,7 +52,7 @@ namespace PSSGManager {
 			float x = (float)Math.Cos(rot);
 			float z = (float)Math.Sin(rot);
 			device.Transform.Projection = Matrix.PerspectiveFovLH((float)Math.PI / 4, this.Width / this.Height, 1f, 50f);
-			device.Transform.View = Matrix.LookAtLH(new Vector3(x, 6, z), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
+			device.Transform.View = Matrix.LookAtLH(new Vector3(x, 4, z), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
 			device.RenderState.Lighting = true;
 			device.Lights[0].Type = LightType.Directional;
 			device.Lights[0].Diffuse = Color.White;
@@ -130,6 +130,7 @@ namespace PSSGManager {
 
 	public class Model {
 		public string name;
+        public string lod;
 		public RenderDataSource renderDataSource;
 
 		public Matrix transform;
@@ -141,8 +142,9 @@ namespace PSSGManager {
 
 		public string blah;
 
-		public Model(string name, RenderDataSource renderDataSource, Matrix transform, int streamOffset, int elementCount, int indexOffset, int indicesCount) {
+		public Model(string name, string lod, RenderDataSource renderDataSource, Matrix transform, int streamOffset, int elementCount, int indexOffset, int indicesCount) {
 			this.name = name;
+            this.lod = lod;
 			this.renderDataSource = renderDataSource;
 			this.transform = transform;
 			this.streamOffset = streamOffset; // Unsure what these are for, vertex stream should not be split up!
@@ -162,7 +164,7 @@ namespace PSSGManager {
 		}
 
 		public override string ToString() {
-			return name;
+			return lod + name;
 		}
 	}
 
